@@ -250,7 +250,7 @@ function sendMessage() {
     inputField.disabled = true;
     sendBtn.disabled = true;
 
-    const loadingMsg = addMessage("El tutor está pensando...", 'bot loading');
+    const loadingMsg = addMessage(t('botPensando'), 'bot loading');
 
     const restaurarInterfaz = () => {
         loadingMsg.remove(); 

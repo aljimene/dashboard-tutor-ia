@@ -48,7 +48,8 @@ const Diccionario = {
         loginPlaceholder: "Ej: 100456789",
         loginBoton: "Entrar",
         loginAlerta: "Por favor, ingresa tu código.",
-		loginTituloPagina: "Login - Experimento Educativo"
+		loginTituloPagina: "Login - Experimento Educativo",
+		botPensando: "El tutor está pensando..."
     },
     en: {
         estudiante: "Student:",
@@ -96,7 +97,8 @@ const Diccionario = {
         loginPlaceholder: "e.g., 100456789",
         loginBoton: "Log in",
         loginAlerta: "Please enter your code.",
-		loginTituloPagina: "Login - Educational Experiment"
+		loginTituloPagina: "Login - Educational Experiment",
+		botPensando: "The tutor is thinking..."
     },
     pt: {
         estudiante: "Estudante:",
@@ -144,7 +146,8 @@ const Diccionario = {
         loginPlaceholder: "Ex: 100456789",
         loginBoton: "Entrar",
         loginAlerta: "Por favor, introduz o teu código.",
-		loginTituloPagina: "Login - Experiência Educativa"
+		loginTituloPagina: "Login - Experiência Educativa",
+		botPensando: "O tutor está a pensar..."
     }
 };
 
