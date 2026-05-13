@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Experimento Educativo</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; width: 350px; }
+        h2 { color: #1a73e8; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; padding: 12px; background: #1a73e8; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        button:hover { background: #1557b0; }
+    </style>
+    <!-- NUEVO: Importamos el diccionario -->
+    <script src="lang.js?v=1.2"></script>
+</head>
+<body>
+
+<div class="login-card">
+    <h2 data-i18n="loginTitulo">Ingresar al Experimento</h2>
+    <p data-i18n="loginInstruccion">Introduce tu código de estudiante:</p>
+    <!-- NUEVO: El placeholder también se traduce dinámicamente -->
+    <input type="text" id="studentCode" data-i18n="loginPlaceholder" placeholder="Ej: 100456789" autofocus>
+    <button onclick="handleLogin()" data-i18n="loginBoton">Entrar</button>
+</div>
+
+<script>
+    // NUEVO: Traducir la pantalla al cargar
+    document.addEventListener('DOMContentLoaded', function() {
+        aplicarTextosGlobales();
+		document.title = t('loginTituloPagina');
+    });
+
+    function handleLogin() {
+        const code = document.getElementById('studentCode').value.trim();
+        if (code) {
+            // Guardamos el código en el almacenamiento local del navegador
+            localStorage.setItem('userCode', code);
+            // Redirigimos al dashboard
+            window.location.href = 'dashboard.html';
+        } else {
+            // NUEVO: Traducir la alerta
+            alert(t('loginAlerta'));
+        }
+    }
+
+    // Permitir login al pulsar Enter
+    document.getElementById('studentCode').onkeypress = (e) => { 
+        if(e.key === 'Enter') handleLogin(); 
+    };
+</script>
+
+</body>
+</html>

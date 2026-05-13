@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+	<link rel="stylesheet" href="dashboard.css?v=2.0">
+    <title>Chatbot Tutor - Experimento</title>
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            startup: {
+                typeset: false // Le decimos que no renderice todo de golpe al inicio
+            }
+        };
+    </script>
+	<script src="lang.js?v=2.0"></script>
+	<script src="datos_ejercicios.js?v=2.0"></script>
+    <script src="dashboard.js?v=2.0"></script>
+</head>
+<body>
+    <div class="app-layout">    
+        <div id="user-session-info">
+            <div class="user-data">
+                <i class="fas fa-user-circle"></i>
+                <div>
+                    <span><strong data-i18n="estudiante">Estudiante:</strong></span>
+                    <span id="display-user-code"></span>
+                </div>
+            </div>
+
+            <div id="lista-ejercicios" class="exercise-list">
+            </div>
+
+            <button onclick="logout()" class="btn-logout" data-i18n="logout">Cerrar sesión</button>
+        </div>
+        <!-- 3. CONTENEDOR DERECHO -->
+        <div class="main-container">
+            
+            <!-- PANTALLA INICIAL (Se oculta al hacer click) -->
+            <div id="welcome-screen">
+                <i class="fas fa-hand-pointer"></i>
+                <h2 data-i18n="bienvenidaTitulo">Selecciona un ejercicio</h2>
+                <p data-i18n="bienvenidaDesc">Haz clic en un ejercicio del menú lateral para ver las métricas y habilitar el tutor IA.</p>
+            </div>
+
+            <!-- CONTENIDO DEL EJERCICIO -->
+            <div id="exercise-content" class="hidden" style="display: flex; flex-direction: column; height: 100%; gap: 20px;">
+                
+                <div class="exercise-header">
+                    <button id="btn-resolver" class="btn-resolver"><i class="fas fa-edit"></i> <span data-i18n="btnResolver">Resolver Ejercicio</span></button>
+                    <div class="difficulty-tag">
+                        <span data-i18n="dificultad">Nivel de dificultad:</span>
+                        <strong id="header-dificultad" class="level-medium">--</strong>
+                    </div>
+
+                    <div class="metrics-container">
+                        <div class="metric-card"><i class="fas fa-star"></i><div class="metric-info"><span class="metric-label" data-i18n="promedioNota">Calificación promedio</span><span id="header-calificacion" class="metric-value">--</span></div></div>
+                        <div class="metric-card"><i class="fas fa-clock"></i><div class="metric-info"><span class="metric-label" data-i18n="promedioTiempo">Tiempo empleado promedio</span><span id="header-tiempo" class="metric-value">--</span></div></div>
+                    </div>
+                </div>
+                
+                <div id="solve-container" class="hidden">
+                    <div class="solve-header">
+                        <h2 id="solve-title">Título de la pregunta</h2>
+                        <span id="solve-score" class="score-badge">5 puntos</span>
+                    </div>
+                    <div class="solve-body">
+                        <p id="solve-question">Contenido de la pregunta...</p>
+                        <div id="solve-input-area">
+                            <!-- Aquí se inyectarán los radiobuttons o el textarea con JS -->
+                        </div>
+                    </div>
+                    <div class="solve-footer">
+                        <button id="btn-submit-answer" class="btn-submit"><i class="fas fa-paper-plane"></i> <span data-i18n="btnEnviarRespuesta">Enviar Respuesta</span></button>
+                    </div>
+                </div>
+            
+                <div id="content-layout" class="content-layout">
+                    <div class="left-panel">
+                        <h3 data-i18n="analiticas" style="margin-top: 0; color: #2c3e50; font-size: 1.1rem; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px;">Analíticas del ejercicio</h3>
+                        <div id="no-data-msg" class="hidden" data-i18n="sinDatos" style="text-align: center; color: #7f8c8d; padding: 20px;">Aún no hay datos suficientes para este ejercicio.</div>
+                        
+                        <div class="charts-grid" id="charts-container">
+                            <div class="chart-box">
+                                <canvas id="chartNotas"></canvas>
+                            </div>
+                            <div class="chart-box">
+                                <canvas id="chartExito"></canvas>
+                            </div>
+                            <div class="chart-box full-width">
+                                <canvas id="chartTiempo"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-panel">
+                        <div id="chat-header" data-i18n="tituloChat">Tutor IA</div>
+                        <div id="messages">
+                            <!-- El primer mensaje se inyecta por JS al cambiar de ejercicio -->
+                        </div>
+                        <div id="input-area">
+                            <input type="text" id="user-input" data-i18n="placeholderChat" placeholder="Escribe tu duda...">
+                            <button id="send-btn" data-i18n="btnEnviarChat">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
