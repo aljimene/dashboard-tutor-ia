@@ -1,4 +1,3 @@
-// 1. Variables Globales
 let userId = "";
 let messagesDiv, inputField, sendBtn;
 let currentExerciseId = null;
