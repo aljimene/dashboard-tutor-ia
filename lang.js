@@ -15,7 +15,7 @@ const Diccionario = {
         analiticas: "Analíticas del ejercicio",
         sinDatos: "Aún no hay datos suficientes para este ejercicio.",
         tituloChat: "Tutor IA",
-        botSaludo: "¡Hola! Soy tu tutor. ¿Tienes dudas sobre este ejercicio?",
+		botSaludo: "¡Hola! Soy tu tutor. ¿Tienes dudas sobre el concepto de '{concepto}'?",
         placeholderChat: "Escribe tu duda...",
         btnEnviarChat: "Enviar",
         puntos: "puntos",
@@ -49,7 +49,10 @@ const Diccionario = {
         loginBoton: "Entrar",
         loginAlerta: "Por favor, ingresa tu código.",
 		loginTituloPagina: "Login - Experimento Educativo",
-		botPensando: "El tutor está pensando..."
+		botPensando: "El tutor está pensando...",
+		labelJustificacion: "Justificación:",
+        placeholderJustificacion: "Escribe brevemente por qué has elegido esta opción...",
+        alertaJustificacion: "Por favor, justifica tu respuesta antes de enviar."
     },
     en: {
         estudiante: "Student:",
@@ -63,7 +66,7 @@ const Diccionario = {
         analiticas: "Exercise Analytics",
         sinDatos: "Not enough data for this exercise yet.",
         tituloChat: "AI Tutor",
-        botSaludo: "Hi! I'm your tutor. Do you have any questions about this exercise?",
+        botSaludo: "Hi! I'm your tutor. Do you have any questions about the concept of '{concepto}'?",
         placeholderChat: "Type your question...",
         btnEnviarChat: "Send",
         puntos: "points",
@@ -98,7 +101,10 @@ const Diccionario = {
         loginBoton: "Log in",
         loginAlerta: "Please enter your code.",
 		loginTituloPagina: "Login - Educational Experiment",
-		botPensando: "The tutor is thinking..."
+		botPensando: "The tutor is thinking...",
+		labelJustificacion: "Justification:",
+        placeholderJustificacion: "Briefly explain why you chose this option...",
+        alertaJustificacion: "Please justify your answer before submitting."
     },
     pt: {
         estudiante: "Estudante:",
@@ -112,7 +118,7 @@ const Diccionario = {
         analiticas: "Analíticas do exercício",
         sinDatos: "Ainda não há dados suficientes para este exercício.",
         tituloChat: "Tutor IA",
-        botSaludo: "Olá! Sou o teu tutor. Tens alguma dúvida sobre este exercício?",
+        botSaludo: "Olá! Sou o teu tutor. Tens alguma dúvida sobre o conceito de '{concepto}'?",
         placeholderChat: "Escreve a tua dúvida...",
         btnEnviarChat: "Enviar",
         puntos: "pontos",
@@ -147,7 +153,10 @@ const Diccionario = {
         loginBoton: "Entrar",
         loginAlerta: "Por favor, introduz o teu código.",
 		loginTituloPagina: "Login - Experiência Educativa",
-		botPensando: "O tutor está a pensar..."
+		botPensando: "O tutor está a pensar...",
+		labelJustificacion: "Justificação:",
+        placeholderJustificacion: "Escreve brevemente por que escolheste esta opção...",
+        alertaJustificacion: "Por favor, justifica a tua resposta antes de enviar."
     }
 };
 

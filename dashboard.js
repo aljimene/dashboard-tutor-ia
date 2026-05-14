@@ -9,7 +9,38 @@ let currentExerciseDataFull;
 let tiempoInicioResolucion = 0;
 
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwXrJAvPBEe65Bs4adNLZgP23vXCJ7LMSA2T_18soBVPTwjcbKV3Ahzrl4jcAIDWOTS7w/exec";
-const LOG_APP_URL = "https://script.google.com/macros/s/AKfycbwqHGdObyguQ9pOG-zB5IjzzM3XFrc2ucCmUF_A9LduPIUx2w9kA_I3P7xhJy-arzE/exec";
+const LOG_APP_URL = "https://script.google.com/macros/s/AKfycbx0nDUGQhOxvfzaE9ZJoR-OsrAwHWzn1kZUGVjNwYLb6sCHIjKKOBG_Fs7VR5yg7oBa/exec";
+
+function mostrarCargaGlobal() {
+    let overlay = document.getElementById('global-loading-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'global-loading-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.backgroundColor = 'rgba(255, 255, 255, 0.85)';
+        overlay.style.zIndex = '9999';
+        overlay.style.display = 'flex';
+        overlay.style.flexDirection = 'column';
+        overlay.style.justifyContent = 'center';
+        overlay.style.alignItems = 'center';
+        overlay.style.backdropFilter = 'blur(4px)';
+        overlay.innerHTML = `
+            <i class="fas fa-circle-notch fa-spin fa-4x" style="color: #1a73e8; margin-bottom: 20px;"></i>
+            <h2 style="color: #2c3e50; font-family: 'Segoe UI', sans-serif;">${t('enviando')}</h2>
+        `;
+        document.body.appendChild(overlay);
+    }
+    overlay.style.display = 'flex';
+}
+
+function ocultarCargaGlobal() {
+    const overlay = document.getElementById('global-loading-overlay');
+    if (overlay) overlay.style.display = 'none';
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     const rawCode = localStorage.getItem('userCode');
@@ -47,26 +78,52 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function seleccionarEjercicio(ejercicioData, elementoHTML) {
     currentExerciseId = "Ejercicio_" + ejercicioData.numero;
-    currentExerciseDataFull = ejercicioData;
+    currentExerciseDataFull = ejercicioData; 
 
-    document.getElementById('content-layout').classList.remove('hidden');
-    document.getElementById('solve-container').classList.add('hidden');
-	
-	registrarTracking("Ver_Dashboard_Ejercicio", `Viendo métricas del Ejercicio ${ejercicioData.numero}`);
+    registrarTracking("Ver_Dashboard_Ejercicio", `Viendo métricas del Ejercicio ${ejercicioData.numero}`);
 
-    chatHistory = []; 
-    if (messagesDiv) {
-        messagesDiv.innerHTML = `<div class="msg bot">${t('botSaludo')}</div>`;
+    document.querySelectorAll('.exercise-list div').forEach(el => el.classList.remove('active'));
+    if (elementoHTML) {
+        elementoHTML.classList.add('active');
     }
 
     document.getElementById('welcome-screen').classList.add('hidden');
     document.getElementById('exercise-content').classList.remove('hidden');
 
-    document.querySelectorAll('.exercise-item').forEach(item => item.classList.remove('active'));
-    elementoHTML.classList.add('active');
+    document.getElementById('solve-container').classList.add('hidden');
+    document.getElementById('content-layout').classList.remove('hidden');
     
+    const btnResolver = document.getElementById('btn-resolver');
+    if (btnResolver) {
+        btnResolver.disabled = false;
+        btnResolver.innerHTML = `<i class="fas fa-edit"></i> <span>${t('btnResolver')}</span>`;
+    }
+
     actualizarCabecera(ejercicioData);
-	renderizarGraficos(ejercicioData);
+    renderizarGraficos(ejercicioData);
+
+    const conceptoActual = ejercicioData.data.concepto;
+    const saludoPersonalizado = t('botSaludo').replace('{concepto}', conceptoActual);
+
+    const messagesDiv = document.getElementById('messages');
+    if (messagesDiv) {
+        messagesDiv.innerHTML = `<div class="msg bot">${saludoPersonalizado}</div>`;
+    }
+
+    chatHistory = [
+        { 
+            "role": "model", 
+            "parts": [{ "text": saludoPersonalizado }] 
+        }
+    ];
+
+    const inputField = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    if (inputField) {
+        inputField.value = '';
+        inputField.disabled = false;
+    }
+    if (sendBtn) sendBtn.disabled = false;
 }
 
 function actualizarCabecera(datos) {
@@ -82,8 +139,9 @@ function actualizarCabecera(datos) {
     document.getElementById('header-dificultad').innerText = diffMap[datos.estadistica.dificultad] || datos.estadistica.dificultad;
     difElemento.className = datos.estadistica.colorClase; 
 }
+
 function registrarTracking(accion, detalles = "") {
-    fetch(LOG_APP_URL, {
+    return fetch(LOG_APP_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
@@ -268,7 +326,7 @@ function sendMessage() {
             prompt: text,
             userId: userId,
             ejercicioId: currentExerciseId,
-            history: chatHistory // Enviamos toda la memoria acumulada
+            history: chatHistory
         })
     })
     .then(response => response.json())
@@ -312,19 +370,28 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!currentExerciseDataFull) return;
 
             let respuestaAlumno = "";
+			let justificaRespuesta = "N/A";
             const tipo = currentExerciseDataFull.data.tipo_pregunta;
             if (tipo === "opcion_multiple" || tipo === "verdadero_falso") {
                 const seleccionado = document.querySelector('input[name="respuesta_ejercicio"]:checked');
                 if (!seleccionado) { alert(t('alertaSeleccion')); return; }
                 respuestaAlumno = seleccionado.value;
+				
+				if (tipo === "opcion_multiple") {
+                    justificaRespuesta = document.getElementById('justificacion_opcion').value.trim();
+                    if (justificaRespuesta === "") { 
+                        alert(t('alertaJustificacion')); 
+                        return; 
+                    }
+                }
             } else if (tipo === "calculo") {
                 respuestaAlumno = document.getElementById('respuesta_calculo').value.trim();
                 if (respuestaAlumno === "") { alert(t('alertaTexto')); return; }
+				justificaRespuesta = "";
             }
 
-            btnSubmit.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('enviando')}`;
-            btnSubmit.disabled = true;
-			
+            mostrarCargaGlobal();
+
 			const tiempoResolucionSeg = Math.round((Date.now() - tiempoInicioResolucion) / 1000);
             fetch(LOG_APP_URL, {
                 method: 'POST',
@@ -335,66 +402,88 @@ document.addEventListener('DOMContentLoaded', function() {
                     ejercicioId: currentExerciseId,
                     pregunta: currentExerciseDataFull.data.contenido_pregunta,
                     respuesta: respuestaAlumno,
-                    notaMaxima: currentExerciseDataFull.data.puntaje_maximo, // NUEVO
+					justificaRespuesta: justificaRespuesta,
+                    notaMaxima: currentExerciseDataFull.data.puntaje_maximo,
                     tiempoResolucion: tiempoResolucionSeg
                 })
             })
             .then(res => res.json())
             .then(data => {
-                registrarTracking("Enviar_Respuesta", `Respondió en ${tiempoResolucionSeg}s`);
-                
-                alert(t('alertaExito'));
-                
-                document.getElementById('solve-container').classList.add('hidden');
-                document.getElementById('content-layout').classList.remove('hidden');
-				
-				btnSubmit.innerHTML = `<i class="fas fa-paper-plane"></i> <span data-i18n="btnEnviarRespuesta">${t('btnEnviarRespuesta')}</span>`;
-                btnSubmit.disabled = false;
+                registrarTracking("Enviar_Respuesta", `Respondió en ${tiempoResolucionSeg}s`).then(() => {
+                    ocultarCargaGlobal();
+                    alert(t('alertaExito'));
+                    
+                    document.getElementById('solve-container').classList.add('hidden');
+                    document.getElementById('content-layout').classList.remove('hidden');
+                });
             })
             .catch(err => {
+                ocultarCargaGlobal();
                 alert(t('alertaError'));
-				btnSubmit.innerHTML = `<i class="fas fa-paper-plane"></i> <span data-i18n="btnEnviarRespuesta">${t('btnEnviarRespuesta')}</span>`;
-                btnSubmit.disabled = false;
             });
         });
     }
 });
 
 function iniciarEvaluacion(ejercicio) {
-	tiempoInicioResolucion = Date.now();
+    tiempoInicioResolucion = Date.now();
     
     registrarTracking("Inicia_Resolucion", "Abrió la hoja del examen");
 
     document.getElementById('content-layout').classList.add('hidden');
+    document.getElementById('solve-container').classList.remove('hidden');
     
-    const solveContainer = document.getElementById('solve-container');
-    solveContainer.classList.remove('hidden');
+    const btnResolver = document.getElementById('btn-resolver');
+    if (btnResolver) btnResolver.disabled = true;
 
     const data = ejercicio.data;
+
     document.getElementById('solve-title').innerText = data.titulo;
-	document.getElementById('solve-score').innerText = `${t('puntajeMaximo')} ${data.puntaje_maximo} ${t('puntos')}`;
-	document.getElementById('solve-question').innerText = data.contenido_pregunta;
+    document.getElementById('solve-score').innerText = `${t('puntajeMaximo')} ${data.puntaje_maximo} ${t('puntos')}`;
+    document.getElementById('solve-question').innerText = data.contenido_pregunta;
+
     const inputArea = document.getElementById('solve-input-area');
-    inputArea.innerHTML = '';
+    inputArea.innerHTML = ''; 
+
     if (data.tipo_pregunta === "opcion_multiple" || data.tipo_pregunta === "verdadero_falso") {
+        
+        const opcionesContainer = document.createElement('div');
+        opcionesContainer.className = 'opciones-container';
+        
         data.opciones_respuesta.forEach((opcion) => {
             const label = document.createElement('label');
-            label.className = 'radio-option';
-            label.innerHTML = `
-                <input type="radio" name="respuesta_ejercicio" value="${opcion}">
-                <span>${opcion}</span>
-            `;
-            inputArea.appendChild(label);
+            label.className = 'opcion-label';
+            label.innerHTML = `<input type="radio" name="respuesta_ejercicio" value="${opcion}"> ${opcion}`;
+            opcionesContainer.appendChild(label);
         });
+        inputArea.appendChild(opcionesContainer);
+
+        if (data.tipo_pregunta === "opcion_multiple") {
+            const justificacionTitle = document.createElement('h4');
+            justificacionTitle.innerText = t('labelJustificacion');
+            justificacionTitle.style.marginTop = "20px";
+            justificacionTitle.style.marginBottom = "10px";
+            justificacionTitle.style.color = "#2c3e50";
+            inputArea.appendChild(justificacionTitle);
+
+            const textareaJustificacion = document.createElement('textarea');
+            textareaJustificacion.id = 'justificacion_opcion';
+            textareaJustificacion.className = 'textarea-calculo';
+            textareaJustificacion.placeholder = t('placeholderJustificacion');
+            textareaJustificacion.rows = 3;
+            inputArea.appendChild(textareaJustificacion);
+        }
+
     } else if (data.tipo_pregunta === "calculo") {
         const textarea = document.createElement('textarea');
         textarea.id = 'respuesta_calculo';
         textarea.className = 'textarea-calculo';
-        textarea.placeholder = "Escribe aquí todo tu procedimiento paso a paso y el resultado final...";
+        textarea.placeholder = t('placeholderCalculo'); 
         textarea.rows = 8;
         inputArea.appendChild(textarea);
     }
 }
+
 const temporizadoresAtencion = {};
 
 function configurarTrackingAtencion() {
@@ -409,7 +498,7 @@ function configurarTrackingAtencion() {
         if (!zona.elemento) return;
 
         zona.elemento.addEventListener('mouseenter', () => {
-            temporizadoresAtencion[zona.nombre] = Date.now(); // Guardamos el milisegundo exacto
+            temporizadoresAtencion[zona.nombre] = Date.now();
         });
 
         zona.elemento.addEventListener('mouseleave', () => {
@@ -419,7 +508,7 @@ function configurarTrackingAtencion() {
                 temporizadoresAtencion[zona.nombre] = null;
 
                 if (tiempoEnSegundos >= 1.0) {
-                    registrarTracking(`Atencion_${zona.nombre}`, `Tiempo: ${tiempoEnSegundos.toFixed(1)} segundos`);
+                    registrarTracking(`Tiempo_${zona.nombre}`, `Tiempo: ${tiempoEnSegundos.toFixed(1)} segundos`);
                 }
             }
         });
