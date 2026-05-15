@@ -1,7 +1,7 @@
 const datosEjercicios = [
     {
         numero: 1,
-        estadistica: { dificultad: "Fácil", calificacion_promedio: "4.2/5", intentos_promedio: "1.2", tiempo_promedio: "1.5 min", tasa_exito: "83%", colorClase: "level-easy" },
+        estadistica: { dificultad: "Fácil", calificacion_promedio: "4.2/5", intentos_promedio: "1.2", tiempo_promedio: "110", tasa_exito: "83%", colorClase: "level-easy" },
 		data: {
             tipo_pregunta: "opcion_multiple",
             concepto: "Débito e Transferência de Dados",
@@ -14,22 +14,22 @@ const datosEjercicios = [
         },
         interacciones: [
             { estudiante_id: "Estudiante_01", intento: 1, nota: 5, calificacion: "Aprobado", tiempo_empleado_seg: 120, fecha: "2024-05-10T09:15:00Z" },
-            { estudiante_id: "Estudiante_02", intento: 1, nota: 5, calificacion: "Aprobado", tiempo_empleado_seg: 90, fecha: "2024-05-10T09:20:00Z" },
+            { estudiante_id: "Estudiante_02", intento: 1, nota: 4, calificacion: "Aprobado", tiempo_empleado_seg: 90, fecha: "2024-05-10T09:20:00Z" },
             { estudiante_id: "Estudiante_03", intento: 1, nota: 0, calificacion: "Suspendido", tiempo_empleado_seg: 45, fecha: "2024-05-10T09:25:00Z" },
             { estudiante_id: "Estudiante_03", intento: 2, nota: 5, calificacion: "Aprobado", tiempo_empleado_seg: 100, fecha: "2024-05-10T09:30:00Z" },
             { estudiante_id: "Estudiante_04", intento: 1, nota: 5, calificacion: "Aprobado", tiempo_empleado_seg: 80, fecha: "2024-05-11T10:10:00Z" },
-            { estudiante_id: "Estudiante_05", intento: 1, nota: 5, calificacion: "Aprobado", tiempo_empleado_seg: 110, fecha: "2024-05-12T11:00:00Z" },
+            { estudiante_id: "Estudiante_05", intento: 1, nota: 2, calificacion: "Suspendido", tiempo_empleado_seg: 110, fecha: "2024-05-12T11:00:00Z" },
             { estudiante_id: "Estudiante_06", intento: 1, nota: 0, calificacion: "Suspendido", tiempo_empleado_seg: 50, fecha: "2024-05-13T08:30:00Z" },
             { estudiante_id: "Estudiante_06", intento: 2, nota: 5, calificacion: "Aprobado", tiempo_empleado_seg: 130, fecha: "2024-05-13T08:45:00Z" },
             { estudiante_id: "Estudiante_07", intento: 1, nota: 5, calificacion: "Aprobado", tiempo_empleado_seg: 95, fecha: "2024-05-13T09:00:00Z" },
-            { estudiante_id: "Estudiante_08", intento: 1, nota: 5, calificacion: "Aprobado", tiempo_empleado_seg: 105, fecha: "2024-05-14T09:00:00Z" },
-            { estudiante_id: "Estudiante_09", intento: 1, nota: 5, calificacion: "Aprobado", tiempo_empleado_seg: 85, fecha: "2024-05-14T09:10:00Z" },
+            { estudiante_id: "Estudiante_08", intento: 1, nota: 4, calificacion: "Aprobado", tiempo_empleado_seg: 105, fecha: "2024-05-14T09:00:00Z" },
+            { estudiante_id: "Estudiante_09", intento: 1, nota: 2, calificacion: "Suspendido", tiempo_empleado_seg: 85, fecha: "2024-05-14T09:10:00Z" },
             { estudiante_id: "Estudiante_10", intento: 1, nota: 5, calificacion: "Aprobado", tiempo_empleado_seg: 120, fecha: "2024-05-15T10:20:00Z" }
         ]
     },
     {
         numero: 2,
-        estadistica: { dificultad: "Medio", calificacion_promedio: "4.9/10", intentos_promedio: "1.5", tiempo_promedio: "6.4 min", tasa_exito: "53%", colorClase: "level-medium" },
+        estadistica: { dificultad: "Medio", calificacion_promedio: "4.9/10", intentos_promedio: "1.5", tiempo_promedio: "210", tasa_exito: "53%", colorClase: "level-medium" },
         data: {
             tipo_pregunta: "calculo",
             concepto: "Proporcionalidade da Largura de Banda",
@@ -60,7 +60,7 @@ const datosEjercicios = [
     },
     {
         numero: 3,
-        estadistica: { dificultad: "Difícil", calificacion_promedio: "2.0/5", intentos_promedio: "1.5", tiempo_promedio: "3.4 min", tasa_exito: "40%", colorClase: "level-hard" },
+        estadistica: { dificultad: "Difícil", calificacion_promedio: "2.0/5", intentos_promedio: "1.5", tiempo_promedio: "90", tasa_exito: "40%", colorClase: "level-hard" },
 		data: {
             tipo_pregunta: "opcion_multiple",
             concepto: "Endereçamento IP e Máscaras",
@@ -91,7 +91,7 @@ const datosEjercicios = [
     },
     {
         numero: 4,
-        estadistica: { dificultad: "Medio", calificacion_promedio: "3.8/5", intentos_promedio: "1.2", tiempo_promedio: "2.6 min", tasa_exito: "75%", colorClase: "level-medium" },
+        estadistica: { dificultad: "Medio", calificacion_promedio: "3.8/5", intentos_promedio: "1.2", tiempo_promedio: "105", tasa_exito: "75%", colorClase: "level-medium" },
         data: {
             tipo_pregunta: "calculo",
             concepto: "Cálculo de Hosts em Sub-redes",
@@ -119,7 +119,7 @@ const datosEjercicios = [
     },
     {
         numero: 5,
-        estadistica: { dificultad: "Fácil", calificacion_promedio: "4.5/5", intentos_promedio: "1.1", tiempo_promedio: "1.5 min", tasa_exito: "91%", colorClase: "level-easy" },
+        estadistica: { dificultad: "Fácil", calificacion_promedio: "4.5/5", intentos_promedio: "1.1", tiempo_promedio: "95", tasa_exito: "91%", colorClase: "level-easy" },
         data: {
             tipo_pregunta: "opcion_multiple",
             concepto: "Cálculo de Broadcast em Sub-redes",

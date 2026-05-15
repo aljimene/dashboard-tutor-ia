@@ -34,7 +34,7 @@ const Diccionario = {
         chartAprobados: "Aprobados",
         chartSuspendidos: "Suspendidos",
         chartTiempoTitulo: "Esfuerzo vs Resultado (Tiempo en mins vs Nota)",
-        chartTiempoX: "Tiempo empleado (Minutos)",
+        chartTiempoX: "Tiempo empleado (Segundos)",
         chartTiempoY: "Nota obtenida",
         tooltipTiempo: "Tiempo",
         tooltipNota: "Nota",
@@ -52,7 +52,12 @@ const Diccionario = {
 		botPensando: "El tutor está pensando...",
 		labelJustificacion: "Justificación:",
         placeholderJustificacion: "Escribe brevemente por qué has elegido esta opción...",
-        alertaJustificacion: "Por favor, justifica tu respuesta antes de enviar."
+        alertaJustificacion: "Por favor, justifica tu respuesta antes de enviar.",
+		cuadranteEficiente: "Eficiente",
+        cuadrantePerseverante: "Perseverante",
+        cuadranteDescuidado: "Descuidado",
+        cuadrantePeligro: "Riesgo",
+		chartCuadrantesTitulo: "Matriz de Esfuerzo vs Resultado",
     },
     en: {
         estudiante: "Student:",
@@ -85,7 +90,7 @@ const Diccionario = {
         chartAprobados: "Passed",
         chartSuspendidos: "Failed",
         chartTiempoTitulo: "Effort vs Result (Time in mins vs Grade)",
-        chartTiempoX: "Time spent (Minutes)",
+        chartTiempoX: "Time spent (Seconds)",
         chartTiempoY: "Grade obtained",
         tooltipTiempo: "Time",
         tooltipNota: "Grade",
@@ -104,7 +109,12 @@ const Diccionario = {
 		botPensando: "The tutor is thinking...",
 		labelJustificacion: "Justification:",
         placeholderJustificacion: "Briefly explain why you chose this option...",
-        alertaJustificacion: "Please justify your answer before submitting."
+        alertaJustificacion: "Please justify your answer before submitting.",
+		cuadranteEficiente: "Efficient",
+        cuadrantePerseverante: "Persistent",
+        cuadranteDescuidado: "Careless",
+        cuadrantePeligro: "At Risk",
+		chartCuadrantesTitulo: "Effort vs. Result Matrix",
     },
     pt: {
         estudiante: "Estudante:",
@@ -137,7 +147,7 @@ const Diccionario = {
         chartAprobados: "Aprovados",
         chartSuspendidos: "Reprovados",
         chartTiempoTitulo: "Esforço vs Resultado (Tempo em mins vs Classificação)",
-        chartTiempoX: "Tempo gasto (Minutos)",
+        chartTiempoX: "Tempo gasto (Segundos)",
         chartTiempoY: "Classificação obtida",
         tooltipTiempo: "Tempo",
         tooltipNota: "Classificação",
@@ -156,7 +166,12 @@ const Diccionario = {
 		botPensando: "O tutor está a pensar...",
 		labelJustificacion: "Justificação:",
         placeholderJustificacion: "Escreve brevemente por que escolheste esta opção...",
-        alertaJustificacion: "Por favor, justifica a tua resposta antes de enviar."
+        alertaJustificacion: "Por favor, justifica a tua resposta antes de enviar.",
+		cuadranteEficiente: "Eficiente",
+        cuadrantePerseverante: "Perseverante",
+        cuadranteDescuidado: "Descuidado",
+        cuadrantePeligro: "Risco",
+		chartCuadrantesTitulo: "Matriz de Esforço vs Resultado",
     }
 };
 

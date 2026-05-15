@@ -184,7 +184,7 @@ function renderizarGraficos(ejercicioData) {
         else suspendidos++;
 
         datosDispersion.push({
-            x: parseFloat((int.tiempo_empleado_seg / 60).toFixed(1)),
+            x: parseFloat((int.tiempo_empleado_seg).toFixed(1)),
             y: int.nota
         });
     });
@@ -203,18 +203,59 @@ function renderizarGraficos(ejercicioData) {
             datasets: [{
                 label: t('chartNotasY'),
                 data: valoresNotas,
-                backgroundColor: 'rgba(52, 152, 219, 0.6)',
-                borderColor: 'rgba(52, 152, 219, 1)',
+                backgroundColor: 'rgba(52, 152, 219, 0.8)',
+                borderColor: 'rgba(41, 128, 185, 1)',
                 borderWidth: 1,
-                borderRadius: 4
+                borderRadius: 6
             }]
         },
         options: {
             responsive: true,
-            plugins: { title: { display: true, text: t('chartNotasTitulo') } },
+			aspectRatio: 1.4,
+            plugins: { 
+                title: { display: true, text: t('chartNotasTitulo') },
+                annotation: {
+                    annotations: {
+                        lineaAprobado: {
+                            type: 'line',
+                            yMin: ejercicioData.data.puntaje_maximo / 2,
+                            yMax: ejercicioData.data.puntaje_maximo / 2,
+                            borderColor: 'rgb(231, 76, 60)',
+                            borderWidth: 2,
+                            borderDash: [6, 6],
+                            label: {
+                                display: true,
+                                content: t('metaAprobado'), 
+                                position: 'end'
+                            }
+                        }
+                    }
+                }
+            },
             scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
         }
     });
+
+    const centerTextPlugin = {
+        id: 'centerText',
+        beforeDraw: function(chart) {
+            if (chart.config.type !== 'doughnut') return;
+            let width = chart.width, height = chart.height, ctx = chart.ctx;
+            ctx.restore();
+            
+            let porcentaje = Math.round((aprobados / (aprobados + suspendidos)) * 100) || 0;
+            
+            let fontSize = (height / 140).toFixed(2);
+            ctx.font = "bold " + fontSize + "em sans-serif";
+            ctx.textBaseline = "middle";
+            ctx.textAlign = "center";
+            ctx.fillStyle = "#333";
+            
+            let textX = width / 2, textY = height / 2;
+            ctx.fillText(porcentaje + "%", textX, textY);
+            ctx.save();
+        }
+    };
 
     const ctxExito = document.getElementById('chartExito').getContext('2d');
     gExito = new Chart(ctxExito, {
@@ -223,44 +264,101 @@ function renderizarGraficos(ejercicioData) {
             labels: [t('chartAprobados'), t('chartSuspendidos')],
             datasets: [{
                 data: [aprobados, suspendidos],
-                backgroundColor: ['rgba(46, 204, 113, 0.7)', 'rgba(231, 76, 60, 0.7)'],
+                backgroundColor: ['#2ecc71', '#e74c3c'],
                 borderWidth: 0
             }]
         },
         options: {
             responsive: true,
-            plugins: { title: { display: true, text: t('chartExitoTitulo') } },
+            plugins: { 
+                title: { display: true, text: t('chartExitoTitulo') }
+            },
             cutout: '60%'
         }
     });
+
+    const notaAprobado = ejercicioData.data.puntaje_maximo / 2;
+	const tiempoMedioEsperado = parseFloat(ejercicioData.estadistica.tiempo_promedio) || 180;
+    const tiempoMaximoEje = tiempoMedioEsperado * 2; 
+
+    const margenY_Sup = 1;     
+    const margenX_Der = 30;    
 
     const ctxTiempo = document.getElementById('chartTiempo').getContext('2d');
     gTiempo = new Chart(ctxTiempo, {
         type: 'scatter',
         data: {
-            datasets: [{
-                label: t('labelInteraccion'),
-                data: datosDispersion,
-                backgroundColor: 'rgba(155, 89, 182, 0.6)',
-                pointRadius: 6,
-                pointHoverRadius: 8
+            datasets: [{ 
+                label: t('labelInteraccion'), 
+                data: datosDispersion,        
+                backgroundColor: '#2c3e50',   
+                pointRadius: 6.5,
+                pointHoverRadius: 10,
+                borderWidth: 3,
+                borderColor: '#ffffff'
             }]
         },
         options: {
             responsive: true,
             clip: false,
             layout: {
-                padding: { top: 15, right: 15 }
+                padding: { top: 10, right: 15, left: 10, bottom: 10 } 
             },
-            plugins: { 
-                title: { display: true, text: t('chartTiempoTitulo') },
-                tooltip: { callbacks: { label: function(context) {
-                    return `${t('tooltipTiempo')}: ${context.parsed.x} min | ${t('tooltipNota')}: ${context.parsed.y}`;
-                } } }
+            plugins: {
+                legend: { display: false },
+                title: { display: true, text: t('chartCuadrantesTitulo') }, 
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${t('tooltipTiempo')}: ${context.parsed.x} s | ${t('tooltipNota')}: ${context.parsed.y}`;
+                        }
+                    }
+                },
+                annotation: {
+                    annotations: {
+                        boxEficiente: {
+                            type: 'box', 
+                            xMin: 0, xMax: tiempoMedioEsperado, 
+                            yMin: notaAprobado, yMax: ejercicioData.data.puntaje_maximo + margenY_Sup,
+                            backgroundColor: 'rgba(46, 204, 113, 0.15)', borderWidth: 0,
+                            label: { display: true, content: t('cuadranteEficiente'), position: 'center', color: 'rgba(46, 204, 113, 0.8)', font: { weight: 'bold', size: 14 } }
+                        },
+                        boxPerseverante: {
+                            type: 'box', 
+                            xMin: tiempoMedioEsperado, xMax: tiempoMaximoEje + margenX_Der, 
+                            yMin: notaAprobado, yMax: ejercicioData.data.puntaje_maximo + margenY_Sup,
+                            backgroundColor: 'rgba(52, 152, 219, 0.15)', borderWidth: 0,
+                            label: { display: true, content: t('cuadrantePerseverante'), position: 'center', color: 'rgba(52, 152, 219, 0.8)', font: { weight: 'bold', size: 14 } }
+                        },
+                        boxFaltaEsfuerzo: {
+                            type: 'box', 
+                            xMin: 0, xMax: tiempoMedioEsperado, 
+                            yMin: 0, yMax: notaAprobado,
+                            backgroundColor: 'rgba(241, 196, 15, 0.15)', borderWidth: 0,
+                            label: { display: true, content: t('cuadranteDescuidado'), position: 'center', color: 'rgba(241, 196, 15, 0.8)', font: { weight: 'bold', size: 14 } }
+                        },
+                        boxNecesitaAyuda: {
+                            type: 'box', 
+                            xMin: tiempoMedioEsperado, xMax: tiempoMaximoEje + margenX_Der, 
+                            yMin: 0, yMax: notaAprobado,
+                            backgroundColor: 'rgba(231, 76, 60, 0.15)', borderWidth: 0,
+                            label: { display: true, content: t('cuadrantePeligro'), position: 'center', color: 'rgba(231, 76, 60, 0.8)', font: { weight: 'bold', size: 14 } }
+                        }
+                    }
+                }
             },
             scales: {
-                x: { title: { display: true, text: t('chartTiempoX') }, beginAtZero: true },
-                y: { title: { display: true, text: t('chartTiempoY') }, beginAtZero: true, max: ejercicioData.data.puntaje_maximo }
+                x: { 
+                    title: { display: true, text: t('chartTiempoX') }, 
+                    min: 0, 
+                    max: tiempoMaximoEje + margenX_Der 
+                },
+                y: { 
+                    title: { display: true, text: t('chartTiempoY') }, 
+                    min: 0, 
+                    max: ejercicioData.data.puntaje_maximo + margenY_Sup,
+                    ticks: { stepSize: 1 }
+                }
             }
         }
     });
