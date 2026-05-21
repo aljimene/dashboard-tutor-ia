@@ -16,7 +16,7 @@
                 displayMath: [['$$', '$$'], ['\\[', '\\]']]
             },
             startup: {
-                typeset: false // Le decimos que no renderice todo de golpe al inicio
+                typeset: false
             }
         };
     </script>
@@ -40,17 +40,14 @@
 
             <button onclick="logout()" class="btn-logout" data-i18n="logout">Cerrar sesión</button>
         </div>
-        <!-- 3. CONTENEDOR DERECHO -->
         <div class="main-container">
             
-            <!-- PANTALLA INICIAL (Se oculta al hacer click) -->
             <div id="welcome-screen">
                 <i class="fas fa-hand-pointer"></i>
                 <h2 data-i18n="bienvenidaTitulo">Selecciona un ejercicio</h2>
                 <p data-i18n="bienvenidaDesc">Haz clic en un ejercicio del menú lateral para ver las métricas y habilitar el tutor IA.</p>
             </div>
 
-            <!-- CONTENIDO DEL EJERCICIO -->
             <div id="exercise-content" class="hidden" style="display: flex; flex-direction: column; height: 100%; gap: 20px;">
                 
                 <div class="exercise-header">
@@ -96,13 +93,13 @@
                             </div>
                             <div class="chart-box full-width">
                                 <canvas id="chartTiempo"></canvas>
+								<div id="legend-container" class="legend-container"></div>
                             </div>
                         </div>
                     </div>
                     <div class="right-panel">
                         <div id="chat-header" data-i18n="tituloChat">Tutor IA</div>
                         <div id="messages">
-                            <!-- El primer mensaje se inyecta por JS al cambiar de ejercicio -->
                         </div>
                         <div id="input-area">
                             <input type="text" id="user-input" data-i18n="placeholderChat" placeholder="Escribe tu duda...">

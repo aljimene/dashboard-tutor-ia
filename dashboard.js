@@ -11,6 +11,10 @@ let tiempoInicioResolucion = 0;
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwXrJAvPBEe65Bs4adNLZgP23vXCJ7LMSA2T_18soBVPTwjcbKV3Ahzrl4jcAIDWOTS7w/exec";
 const LOG_APP_URL = "https://script.google.com/macros/s/AKfycbx0nDUGQhOxvfzaE9ZJoR-OsrAwHWzn1kZUGVjNwYLb6sCHIjKKOBG_Fs7VR5yg7oBa/exec";
 
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+}, false);
+
 function mostrarCargaGlobal() {
     let overlay = document.getElementById('global-loading-overlay');
     if (!overlay) {
@@ -132,9 +136,11 @@ function actualizarCabecera(datos) {
     
     const difElemento = document.getElementById('header-dificultad');
     const diffMap = {
+        "Muy fácil": t('difMuyFacil'),
         "Fácil": t('difFacil'),
         "Medio": t('difMedio'),
-        "Difícil": t('difDificil')
+        "Difícil": t('difDificil'),
+        "Muy difícil": t('difMuyDificil')
     };
     document.getElementById('header-dificultad').innerText = diffMap[datos.estadistica.dificultad] || datos.estadistica.dificultad;
     difElemento.className = datos.estadistica.colorClase; 
@@ -152,6 +158,25 @@ function registrarTracking(accion, detalles = "") {
             detalles: detalles
         })
     }).catch(err => console.error("Error en tracking en segundo plano", err));
+}
+function renderLegend() {
+    const container = document.getElementById('legend-container');
+    
+    const items = [
+        { class: 'bg-eficiente', text: t('cuadranteEficiente'), color: 'rgba(46, 204, 113, 0.8)' },
+        { class: 'bg-perseverante', text: t('cuadrantePerseverante'), color: 'rgba(52, 152, 219, 0.8)' },
+        { class: 'bg-descuidado', text: t('cuadranteDescuidado'), color: 'rgba(241, 196, 15, 0.8)' },
+        { class: 'bg-ayuda', text: t('cuadrantePeligro'), color: 'rgba(231, 76, 60, 0.8)' }
+    ];
+
+    container.innerHTML = items.map(item => `
+        <div class="legend-item">
+            <span class="color-box ${item.class}"></span>
+            <span style="color: ${item.color}; font-weight: bold; font-size: 14px;">
+                ${item.text}
+            </span>
+        </div>
+    `).join('');
 }
 
 function renderizarGraficos(ejercicioData) {
@@ -176,7 +201,6 @@ function renderizarGraficos(ejercicioData) {
     let aprobados = 0;
     let suspendidos = 0;
     const datosDispersion = [];
-
     interacciones.forEach(int => {
         conteoNotas[int.nota] = (conteoNotas[int.nota] || 0) + 1;
         
@@ -188,7 +212,6 @@ function renderizarGraficos(ejercicioData) {
             y: int.nota
         });
     });
-
     const etiquetasNotas = Object.keys(conteoNotas).sort((a, b) => a - b);
     const valoresNotas = etiquetasNotas.map(nota => conteoNotas[nota]);
 
@@ -214,23 +237,6 @@ function renderizarGraficos(ejercicioData) {
 			aspectRatio: 1.4,
             plugins: { 
                 title: { display: true, text: t('chartNotasTitulo') },
-                annotation: {
-                    annotations: {
-                        lineaAprobado: {
-                            type: 'line',
-                            yMin: ejercicioData.data.puntaje_maximo / 2,
-                            yMax: ejercicioData.data.puntaje_maximo / 2,
-                            borderColor: 'rgb(231, 76, 60)',
-                            borderWidth: 2,
-                            borderDash: [6, 6],
-                            label: {
-                                display: true,
-                                content: t('metaAprobado'), 
-                                position: 'end'
-                            }
-                        }
-                    }
-                }
             },
             scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
         }
@@ -321,28 +327,24 @@ function renderizarGraficos(ejercicioData) {
                             xMin: 0, xMax: tiempoMedioEsperado, 
                             yMin: notaAprobado, yMax: ejercicioData.data.puntaje_maximo + margenY_Sup,
                             backgroundColor: 'rgba(46, 204, 113, 0.15)', borderWidth: 0,
-                            label: { display: true, content: t('cuadranteEficiente'), position: 'center', color: 'rgba(46, 204, 113, 0.8)', font: { weight: 'bold', size: 14 } }
                         },
                         boxPerseverante: {
                             type: 'box', 
                             xMin: tiempoMedioEsperado, xMax: tiempoMaximoEje + margenX_Der, 
                             yMin: notaAprobado, yMax: ejercicioData.data.puntaje_maximo + margenY_Sup,
                             backgroundColor: 'rgba(52, 152, 219, 0.15)', borderWidth: 0,
-                            label: { display: true, content: t('cuadrantePerseverante'), position: 'center', color: 'rgba(52, 152, 219, 0.8)', font: { weight: 'bold', size: 14 } }
                         },
                         boxFaltaEsfuerzo: {
                             type: 'box', 
                             xMin: 0, xMax: tiempoMedioEsperado, 
                             yMin: 0, yMax: notaAprobado,
                             backgroundColor: 'rgba(241, 196, 15, 0.15)', borderWidth: 0,
-                            label: { display: true, content: t('cuadranteDescuidado'), position: 'center', color: 'rgba(241, 196, 15, 0.8)', font: { weight: 'bold', size: 14 } }
                         },
                         boxNecesitaAyuda: {
                             type: 'box', 
                             xMin: tiempoMedioEsperado, xMax: tiempoMaximoEje + margenX_Der, 
                             yMin: 0, yMax: notaAprobado,
                             backgroundColor: 'rgba(231, 76, 60, 0.15)', borderWidth: 0,
-                            label: { display: true, content: t('cuadrantePeligro'), position: 'center', color: 'rgba(231, 76, 60, 0.8)', font: { weight: 'bold', size: 14 } }
                         }
                     }
                 }
@@ -362,6 +364,7 @@ function renderizarGraficos(ejercicioData) {
             }
         }
     });
+	renderLegend();
 }
 
 function logout() {

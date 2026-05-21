@@ -151,6 +151,24 @@ font-size: 0.8rem;
 border: 1px solid #f5b7b1;
 }
 
+.level-very-easy {
+    color: #16a085;
+    background: #d1f2eb;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    border: 1px solid #76d7c4;
+}
+
+.level-very-hard {
+    color: #8e44ad;
+    background: #f4ecf7;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    border: 1px solid #d2b4de;
+    font-weight: bold;
+}
 .level-none {
 color: #7f8c8d;
 background: #f2f4f4;
@@ -440,3 +458,29 @@ canvas {
 .btn-submit:hover { 
     background-color: #2980b9; 
 }
+.legend-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 10px;
+    justify-content: flex-start;
+	align-items: center;
+}
+
+.legend-item {
+    display: flex;
+    text-align: left;
+}
+
+.legend-item span.color-box {
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+    border-radius: 3px;
+	opacity: 0.6;
+}
+
+.bg-eficiente { background-color: rgba(46, 204, 113, 0.6); }
+.bg-perseverante { background-color: rgba(52, 152, 219, 0.6); }
+.bg-descuidado { background-color: rgba(241, 196, 15, 0.6); }
+.bg-ayuda { background-color: rgba(231, 76, 60, 0.6); }
