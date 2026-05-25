@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
     datosEjercicios.forEach((ejercicio) => {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'exercise-item'; 
-        itemDiv.innerHTML = `<i class="fas fa-file-alt"></i> ${t('palabraEjercicio')} ${ejercicio.numero}`;
+        itemDiv.innerHTML = `<i class="fas fa-file-alt"></i> ${t('palabraEjercicio')}: ${ejercicio.data.concepto}`;
         itemDiv.onclick = (e) => seleccionarEjercicio(ejercicio, e.currentTarget);
         listaEjerciciosDiv.appendChild(itemDiv);
     });

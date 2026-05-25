@@ -51,16 +51,15 @@
             <div id="exercise-content" class="hidden" style="display: flex; flex-direction: column; height: 100%; gap: 20px;">
                 
                 <div class="exercise-header">
-                    <button id="btn-resolver" class="btn-resolver"><i class="fas fa-edit"></i> <span data-i18n="btnResolver">Resolver Ejercicio</span></button>
-                    <div class="difficulty-tag">
-                        <span data-i18n="dificultad">Nivel de dificultad:</span>
-                        <strong id="header-dificultad" class="level-medium">--</strong>
-                    </div>
-
                     <div class="metrics-container">
                         <div class="metric-card"><i class="fas fa-star"></i><div class="metric-info"><span class="metric-label" data-i18n="promedioNota">Calificación promedio</span><span id="header-calificacion" class="metric-value">--</span></div></div>
                         <div class="metric-card"><i class="fas fa-clock"></i><div class="metric-info"><span class="metric-label" data-i18n="promedioTiempo">Tiempo empleado promedio</span><span id="header-tiempo" class="metric-value">--</span></div></div>
                     </div>
+					<div class="difficulty-tag">
+                        <span data-i18n="dificultad">Nivel de dificultad:</span>
+                        <strong id="header-dificultad" class="level-medium">--</strong>
+                    </div>
+					<button id="btn-resolver" class="btn-resolver"><i class="fas fa-edit"></i> <span data-i18n="btnResolver">Resolver Ejercicio</span></button>
                 </div>
                 
                 <div id="solve-container" class="hidden">
