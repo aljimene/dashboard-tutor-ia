@@ -10,16 +10,21 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
 	<script>
-        window.MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']]
-            },
-            startup: {
-                typeset: false
-            }
-        };
-    </script>
+		window.MathJax = {
+			loader: { load: ['[tex]/cancel'] },
+			tex: {
+				packages: { '[+]': ['cancel'] },
+				inlineMath: [['$', '$'], ['\\(', '\\)']],
+				displayMath: [['$$', '$$'], ['\\[', '\\]']],
+				processEscapes: true
+			},
+			options: {
+				processHtmlClass: "math-rendered", 
+				skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+			},
+			startup: { typeset: false }
+		};
+	</script>
 	<script src="lang.js?v=2.1"></script>
 	<script src="datos_ejercicios.js?v=2.1"></script>
     <script src="dashboard.js?v=2.1"></script>
@@ -70,7 +75,6 @@
                     <div class="solve-body">
                         <p id="solve-question">Contenido de la pregunta...</p>
                         <div id="solve-input-area">
-                            <!-- Aquí se inyectarán los radiobuttons o el textarea con JS -->
                         </div>
                     </div>
                     <div class="solve-footer">

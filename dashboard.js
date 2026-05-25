@@ -8,7 +8,7 @@ let gTiempo = null;
 let currentExerciseDataFull;
 let tiempoInicioResolucion = 0;
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwORzJGQANqe-DHfFla0prHBT7kdL5k23GFB5rCA-FanrW-S0FkkD_6sqKnI2cx-6ksUw/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxl2KN6BLRyVwv6BgTBXuZON-oFfSgHCkpjfWmMVmBbfCvL_9oaiCn3o24u_JoCEPD4yA/exec";
 const LOG_APP_URL = "https://script.google.com/macros/s/AKfycbzxO5bcQDocTRWd1x9r-E2aEeAKa19UTlfPNwpS0iM9l8cQuJBWZZKIgt5uJLFYBEZI/exec";
 
 document.addEventListener('contextmenu', function(e) {
@@ -381,12 +381,27 @@ function addMessage(text, sender) {
     div.className = `msg ${sender}`;
     
     if (sender.includes('bot')) {
-        div.innerHTML = marked.parse(text);
+        let mathBlocks = [];
+        
+        const mathPattern = /(\$\$.*?\$\$|\$.*?\$)/gs;
+        
+        let protectedText = text.replace(mathPattern, (match) => {
+            let id = `###MATH_${mathBlocks.length}###`;
+            mathBlocks.push(match);
+            return id;
+        });
+
+        let htmlContent = marked.parse(protectedText);
+        
+        mathBlocks.forEach((math, index) => {
+            // Ponemos las fórmulas dentro de un span para protegerlas del CSS del chat
+            htmlContent = htmlContent.replace(`###MATH_${index}###`, `<span class="math-formula">${math}</span>`);
+        });
+        
+        div.innerHTML = htmlContent;
         
         if (window.MathJax && window.MathJax.typesetPromise) {
-            MathJax.typesetPromise([div]).catch(function (err) {
-                console.error('Error renderizando matemáticas:', err.message);
-            });
+            MathJax.typesetPromise([div]).catch(err => console.error('Error MathJax:', err));
         }
     } else {
         div.innerText = text;
