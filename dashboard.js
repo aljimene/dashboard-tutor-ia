@@ -8,8 +8,8 @@ let gTiempo = null;
 let currentExerciseDataFull;
 let tiempoInicioResolucion = 0;
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzYHF41ph9eD-bvFdsO478Vafu2q-zwHXUUfKOSQcHjTwmbYGdSPz4-CLW7sMHXexxvyg/exec";
-const LOG_APP_URL = "https://script.google.com/macros/s/AKfycbx0nDUGQhOxvfzaE9ZJoR-OsrAwHWzn1kZUGVjNwYLb6sCHIjKKOBG_Fs7VR5yg7oBa/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwORzJGQANqe-DHfFla0prHBT7kdL5k23GFB5rCA-FanrW-S0FkkD_6sqKnI2cx-6ksUw/exec";
+const LOG_APP_URL = "https://script.google.com/macros/s/AKfycbzxO5bcQDocTRWd1x9r-E2aEeAKa19UTlfPNwpS0iM9l8cQuJBWZZKIgt5uJLFYBEZI/exec";
 
 document.addEventListener('contextmenu', function(e) {
     e.preventDefault();
