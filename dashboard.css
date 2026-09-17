@@ -234,12 +234,28 @@ overflow: hidden;
 #send-btn { background: #3498db; color: white; border: none; padding: 0 12px; border-radius: 4px; cursor: pointer; }
 
 .msg {
-padding: 10px 14px;
-border-radius: 15px;
-font-size: 0.9rem;
-line-height: 1.4;
-width: fit-content;
-max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    width: fit-content;
+    max-width: 85%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+.msg pre {
+    white-space: pre-wrap;       /* Permite que el código salte de línea */
+    overflow-x: auto;            /* Añade una barra de desplazamiento horizontal si es estrictamente necesario */
+    background-color: rgba(0, 0, 0, 0.05); /* Fondo sutil para distinguir el código */
+    padding: 10px;
+    border-radius: 6px;
+    max-width: 100%;
+}
+
+.msg p:last-child {
+    margin-bottom: 0;
 }
 
 .msg.user {

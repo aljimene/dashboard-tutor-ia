@@ -25,9 +25,9 @@
 			startup: { typeset: false }
 		};
 	</script>
-	<script src="lang.js?v=2.1"></script>
-	<script src="datos_ejercicios.js?v=2.1"></script>
-    <script src="dashboard.js?v=2.1"></script>
+	<script src="lang.js?v=3.1"></script>
+	<script src="datos_ejercicios.js?v=3.1"></script>
+    <script src="dashboard.js?v=3.0"></script>
 </head>
 <body>
     <div class="app-layout">    
@@ -67,39 +67,43 @@
 					<button id="btn-resolver" class="btn-resolver"><i class="fas fa-edit"></i> <span data-i18n="btnResolver">Resolver Ejercicio</span></button>
                 </div>
                 
-                <div id="solve-container" class="hidden">
-                    <div class="solve-header">
-                        <h2 id="solve-title">Título de la pregunta</h2>
-                        <span id="solve-score" class="score-badge">5 puntos</span>
-                    </div>
-                    <div class="solve-body">
-                        <p id="solve-question">Contenido de la pregunta...</p>
-                        <div id="solve-input-area">
+                <div id="stats-container" class="left-panel" style="flex: 1; display: flex; flex-direction: column; min-height: 0;">
+                    <h3 data-i18n="analiticas" style="margin-top: 0; color: #2c3e50; font-size: 1.1rem; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px;">Analíticas del ejercicio</h3>
+                    <div id="no-data-msg" class="hidden" data-i18n="sinDatos" style="text-align: center; color: #7f8c8d; padding: 20px;">Aún no hay datos suficientes para este ejercicio.</div>
+                    
+                    <div class="charts-grid" id="charts-container">
+                        <div class="chart-box">
+                            <canvas id="chartNotas"></canvas>
                         </div>
-                    </div>
-                    <div class="solve-footer">
-                        <button id="btn-submit-answer" class="btn-submit"><i class="fas fa-paper-plane"></i> <span data-i18n="btnEnviarRespuesta">Enviar Respuesta</span></button>
+                        <div class="chart-box">
+                            <canvas id="chartExito"></canvas>
+                        </div>
+                        <div class="chart-box full-width">
+                            <canvas id="chartTiempo"></canvas>
+                            <div id="legend-container" class="legend-container"></div>
+                        </div>
                     </div>
                 </div>
-            
-                <div id="content-layout" class="content-layout">
-                    <div class="left-panel">
-                        <h3 data-i18n="analiticas" style="margin-top: 0; color: #2c3e50; font-size: 1.1rem; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px;">Analíticas del ejercicio</h3>
-                        <div id="no-data-msg" class="hidden" data-i18n="sinDatos" style="text-align: center; color: #7f8c8d; padding: 20px;">Aún no hay datos suficientes para este ejercicio.</div>
-                        
-                        <div class="charts-grid" id="charts-container">
-                            <div class="chart-box">
-                                <canvas id="chartNotas"></canvas>
-                            </div>
-                            <div class="chart-box">
-                                <canvas id="chartExito"></canvas>
-                            </div>
-                            <div class="chart-box full-width">
-                                <canvas id="chartTiempo"></canvas>
-								<div id="legend-container" class="legend-container"></div>
+
+                <!-- VISTA 2: RESOLUCIÓN + CHATBOT (Diseño dividido) -->
+                <div id="solve-layout" class="content-layout hidden">
+                    <!-- Panel Izquierdo: Ejercicio -->
+                    <div id="solve-container" style="flex: 3; margin: 0;">
+                        <div class="solve-header">
+                            <h2 id="solve-title">Título de la pregunta</h2>
+                            <span id="solve-score" class="score-badge">5 puntos</span>
+                        </div>
+                        <div class="solve-body">
+                            <p id="solve-question">Contenido de la pregunta...</p>
+                            <div id="solve-input-area">
                             </div>
                         </div>
+                        <div class="solve-footer">
+                            <button id="btn-submit-answer" class="btn-submit"><i class="fas fa-paper-plane"></i> <span data-i18n="btnEnviarRespuesta">Enviar Respuesta</span></button>
+                        </div>
                     </div>
+                
+                    <!-- Panel Derecho: Chatbot -->
                     <div class="right-panel">
                         <div id="chat-header" data-i18n="tituloChat">Tutor IA</div>
                         <div id="messages">
@@ -111,7 +115,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </body>

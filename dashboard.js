@@ -8,12 +8,12 @@ let gTiempo = null;
 let currentExerciseDataFull;
 let tiempoInicioResolucion = 0;
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxl2KN6BLRyVwv6BgTBXuZON-oFfSgHCkpjfWmMVmBbfCvL_9oaiCn3o24u_JoCEPD4yA/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyAk9N1Otb6KC09scyrJPk7D11xtlKqXu81QoMNc2s9TCV1gzQ9hZfE9lx3qoLLcDn2/exec";
 const LOG_APP_URL = "https://script.google.com/macros/s/AKfycbzxO5bcQDocTRWd1x9r-E2aEeAKa19UTlfPNwpS0iM9l8cQuJBWZZKIgt5uJLFYBEZI/exec";
 
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-}, false);
+//document.addEventListener('contextmenu', function(e) {
+//    e.preventDefault();
+//}, false);
 
 function mostrarCargaGlobal() {
     let overlay = document.getElementById('global-loading-overlay');
@@ -94,8 +94,8 @@ function seleccionarEjercicio(ejercicioData, elementoHTML) {
     document.getElementById('welcome-screen').classList.add('hidden');
     document.getElementById('exercise-content').classList.remove('hidden');
 
-    document.getElementById('solve-container').classList.add('hidden');
-    document.getElementById('content-layout').classList.remove('hidden');
+    document.getElementById('solve-layout').classList.add('hidden');
+    document.getElementById('stats-container').classList.remove('hidden');
     
     const btnResolver = document.getElementById('btn-resolver');
     if (btnResolver) {
@@ -442,24 +442,42 @@ function sendMessage() {
             prompt: text,
             userId: userId,
             ejercicioId: currentExerciseId,
-            history: chatHistory
+            history: chatHistory,
+            concepto: currentExerciseDataFull.data.concepto,
+            titulo: currentExerciseDataFull.data.titulo,
+            instruccionTutor: currentExerciseDataFull.data.instruccion_tutor,
+            teoria: currentExerciseDataFull.data.teoria_texto || "" 
         })
     })
-    .then(response => response.json())
+    .then(async response => {
+        // Interceptamos respuestas HTML (como redirecciones de login) antes de que rompan el JSON
+        const isJson = response.headers.get('content-type')?.includes('application/json');
+        const data = isJson ? await response.json() : null;
+
+        if (!response.ok) {
+            const errorText = data && data.error ? data.error : response.statusText;
+            throw new Error(`HTTP ${response.status}: ${errorText}`);
+        }
+        
+        if (!isJson) {
+            throw new Error("El servidor no devolvió JSON. Posible conflicto de cuentas de Google.");
+        }
+        
+        return data;
+    })
     .then(data => {
         if (data.reply) {
             addMessage(data.reply, 'bot');
-            
             chatHistory.push({ "role": "user", "parts": [{ "text": text }] });
             chatHistory.push({ "role": "model", "parts": [{ "text": data.reply }] });
-
         } else {
-            addMessage("Error del bot: " + data.error, 'bot');
+            addMessage("Error lógico del bot: " + data.error, 'bot');
         }
         restaurarInterfaz();
     })
     .catch(error => {
-        addMessage("Hubo un error de red o el servidor tardó demasiado.", 'bot');
+        // Ahora imprimirá el error real en la burbuja roja
+        addMessage("Fallo capturado: " + error.message, 'bot');
         console.error(error);
         restaurarInterfaz();
     });
@@ -529,8 +547,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     ocultarCargaGlobal();
                     alert(t('alertaExito'));
                     
-                    document.getElementById('solve-container').classList.add('hidden');
-                    document.getElementById('content-layout').classList.remove('hidden');
+                    document.getElementById('solve-layout').classList.add('hidden');
+                    document.getElementById('stats-container').classList.remove('hidden');
                 });
             })
             .catch(err => {
@@ -546,8 +564,8 @@ function iniciarEvaluacion(ejercicio) {
     
     registrarTracking("Inicia_Resolucion", "Abrió la hoja del examen");
 
-    document.getElementById('content-layout').classList.add('hidden');
-    document.getElementById('solve-container').classList.remove('hidden');
+    document.getElementById('stats-container').classList.add('hidden');
+    document.getElementById('solve-layout').classList.remove('hidden');
     
     const btnResolver = document.getElementById('btn-resolver');
     if (btnResolver) btnResolver.disabled = true;

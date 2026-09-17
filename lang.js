@@ -1,5 +1,5 @@
 const AppConfig = {
-    idioma: 'pt' 
+    idioma: 'es' 
 };
 
 const Diccionario = {
