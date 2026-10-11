@@ -516,7 +516,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
             let respuestaAlumno = "";
 			let justificaRespuesta = "N/A";
-            const tipo = currentExerciseDataFull.data.tipo_pregunta;
+			const lang = AppConfig.idioma;
+			const modo = AppConfig.modo;
+	
+			const bloqueIdioma = currentExerciseDataFull.data[lang] || currentExerciseDataFull.data['es'];
+			const textosSeguros = bloqueIdioma[modo] || bloqueIdioma['practica'];
+            const tipo = textosSeguros.tipo_pregunta;
             if (tipo === "opcion_multiple" || tipo === "verdadero_falso") {
                 const seleccionado = document.querySelector('input[name="respuesta_ejercicio"]:checked');
                 if (!seleccionado) { alert(t('alertaSeleccion')); return; }
@@ -608,7 +613,7 @@ function iniciarEvaluacion(ejercicio) {
     const inputArea = document.getElementById('solve-input-area');
     inputArea.innerHTML = ''; 
 
-    if (data.tipo_pregunta === "opcion_multiple" || data.tipo_pregunta === "verdadero_falso") {
+    if (textosSeguros.tipo_pregunta === "opcion_multiple" || textosSeguros.tipo_pregunta === "verdadero_falso") {
         
         const opcionesContainer = document.createElement('div');
         opcionesContainer.className = 'opciones-container';
@@ -625,7 +630,7 @@ function iniciarEvaluacion(ejercicio) {
         });
         inputArea.appendChild(opcionesContainer);
 
-        if (data.tipo_pregunta === "opcion_multiple") {
+        if (textosSeguros.tipo_pregunta === "opcion_multiple") {
             const justificacionTitle = document.createElement('h4');
             justificacionTitle.innerText = t('labelJustificacion');
             justificacionTitle.style.marginTop = "20px";
@@ -641,7 +646,7 @@ function iniciarEvaluacion(ejercicio) {
             inputArea.appendChild(textareaJustificacion);
         }
 
-    } else if (data.tipo_pregunta === "calculo") {
+    } else if (textosSeguros.tipo_pregunta === "calculo") {
         const textarea = document.createElement('textarea');
         textarea.id = 'respuesta_calculo';
         textarea.className = 'textarea-calculo';

@@ -10,10 +10,10 @@ const datosEjercicios = [
 			colorClase: "level-very-easy" 
 		},
 		data: {
-			tipo_pregunta: "opcion_multiple",
 			es: {
 				teoria: {
 					concepto: "Vectores",
+					tipo_pregunta: "opcion_multiple",
 					titulo: "Operaciones entre vectores",
 					contenido_pregunta: `Un analista quiere saber cuántos trimestre tuvieron un crecimiento del PIB positivo. Para ello, escribe el siguiente código en R:
 					<i style="font-family: monospace; background-color: #f8f9fa; padding: 10px; display: block; border-radius: 5px;"><br>
@@ -27,16 +27,25 @@ const datosEjercicios = [
 				},
 				practica: {
                     concepto: "Vectores",
-                    titulo: "Operaciones entre vectores (Práctica)",
-                    contenido_pregunta: "Escribe un código en R que cree un vector...",
-                    opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
-                    respuesta_correcta: "Opción A",
-                    instruccion_tutor: "Guía al alumno revisando la sintaxis de creación..."
+					tipo_pregunta: "calculo",
+                    titulo: "Operaciones y filtrado condicional",
+                    contenido_pregunta: `Un analista necesita un reporte rápido de la inflación. Usando los vectores precargados <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">(paises, inflacion_2020, inflacion_2024 y meta_bce)</i>, escribe el código necesario para completar los siguientes pasos: <br>
+					<ol>
+						<li>Calcula la variación total de inflación entre 2020 y 2024 para cada país, y guárdala en una variable llamada <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">variacion</i>.</li>
+
+						<li>Extrae los nombres de los países cuya inflación en 2024 fue estrictamente menor a la meta del BCE, guardándolos en  <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">paises_exito</i>.</li>
+
+						<li>Calcula la media de inflación (del año 2024) únicamente de esos países que cumplieron la meta, y guárdala en <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">media_exito <br></li>
+					</ol>`,
+                    opciones_respuesta: [],
+                    respuesta_correcta: "",
+                    instruccion_tutor: `Si el estudiante no sabe cómo calcular media_exito, no le des la respuesta. Guíalo en dos pasos: primero pregúntale cómo filtraría los NÚMEROS del vector inflacion_2024 que son menores a meta_bce (usando corchetes sobre sí mismo). Una vez que lo logre, indícale que simplemente debe envolver ese filtro dentro de la función matemática del promedio.`
                 }
             },
 			en: {
 				teoria: {
 					concepto: "Vectors",
+					tipo_pregunta: "opcion_multiple",
 					titulo: "Vector Operations",
 					contenido_pregunta: `An analyst would like to know how many quarters had positive GDP growth. To do this, he writes the following code in R:
 					<i style="font-family: monospace; background-color: #f8f9fa; padding: 10px; display: block; border-radius: 5px;"><br>
@@ -49,12 +58,20 @@ const datosEjercicios = [
 					instruccion_tutor: "To guide the student when they make a mistake, have them analyze the instruction from the inside out. First, ask them to identify which specific elements of the vector `pib_trimestral` satisfy the logical condition > 0 (which would be 2.5, 3.2, and 1.5). Next, ask them what the purpose of the external function `length()` is when applied exclusively to those filtered elements, helping them remember that this function counts the total number of resulting elements but does not sum their values or calculate the average.",
 				},
 				practica: {
-                    concepto: "Vectores",
-                    titulo: "Operaciones entre vectores (Práctica)",
-                    contenido_pregunta: "Escribe un código en R que cree un vector...",
-                    opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
-                    respuesta_correcta: "Opción A",
-                    instruccion_tutor: "Guía al alumno revisando la sintaxis de creación..."
+                    concepto: "Vectors",
+					tipo_pregunta: "calculo",
+                    titulo: "Operations and Conditional Filtering",
+                    contenido_pregunta: `An analyst needs a quick report on inflation. Using the preloaded vectors <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">(countries, inflation_2020, inflation_2024, and bce_target)</i>, write the code needed to complete the following steps: <br>
+					<ol>
+                        <li>Calculate the total change in inflation between 2020 and 2024 for each country, and store it in a variable called <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">variation</i>.</li>
+
+						<li>Extract the names of the countries whose inflation in 2024 was strictly below the ECB’s target, and store them in <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">paises_exito</i>.</li>
+
+						<li>Calculate the average inflation rate (for the year 2024) only for those countries that met the target, and store it in <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">average_success <br></li>
+                    </ol>`,
+                    opciones_respuesta: [],
+                    respuesta_correcta: "",
+                    instruccion_tutor: "If the student doesn't know how to calculate average_success, don't give them the answer. Guide them through two steps: first, ask them how they would filter the NUMBERS in the inflation_2024 vector that are less than bce_target (using square brackets nested within themselves). Once they've figured that out, tell them to simply wrap that filter around the mathematical function for the average."
                 }
             },
 			puntaje_maximo: 100,
@@ -474,6 +491,7 @@ diferencia entre ellos.`
 			es: {
 				teoria: {
 					concepto: "Condicionales",
+					tipo_pregunta: "opcion_multiple",
 					titulo: "Condiciones Lógicas Múltiples",
 					contenido_pregunta: `Una administración pública utiliza el siguiente código en R para asignar una subvención a familias.
 					<i style="font-family: monospace; background-color: #f8f9fa; padding: 10px; display: block; border-radius: 5px;"><br>
@@ -496,6 +514,7 @@ diferencia entre ellos.`
 				},
 				practica: {
                     concepto: "Vectores",
+					tipo_pregunta: "calculo",
                     titulo: "Operaciones entre vectores (Práctica)",
                     contenido_pregunta: "Escribe un código en R que cree un vector...",
                     opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
@@ -506,6 +525,7 @@ diferencia entre ellos.`
 			en: {
 				teoria: {
 					concepto: "Conditionals",
+					tipo_pregunta: "opcion_multiple",
 					titulo: "Multiple Logical Conditions",
 					contenido_pregunta: `A government agency uses the following R code to assign a subsidy to families.
 					<i style="font-family: monospace; background-color: #f8f9fa; padding: 10px; display: block; border-radius: 5px;"><br>
@@ -528,6 +548,7 @@ diferencia entre ellos.`
 				},
 				practica: {
                     concepto: "Vectores",
+					tipo_pregunta: "calculo",
                     titulo: "Operaciones entre vectores (Práctica)",
                     contenido_pregunta: "Escribe un código en R que cree un vector...",
                     opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
@@ -1019,10 +1040,10 @@ print(resultado)`
 			colorClase: "level-medium" 
 		},
 		data: {
-			tipo_pregunta: "opcion_multiple",
 			es: {
 				teoria: {
 					concepto: "Bucles",
+					tipo_pregunta: "opcion_multiple",
 					titulo: "Bucles Anidados",
 					contenido_pregunta: `Un departamento de cumplimiento normativo quiere contar cuántas auditorías se realizan en total durante los 3 primeros trimestres del año. En cada trimestre, se audita un número de oficinas igual al número del trimestre actual (ej. en el trimestre 1 se audita 1 oficina, en el 2 se auditan 2, etc.). Analiza el siguiente código en R:
 					<i style="font-family: monospace; background-color: #f8f9fa; padding: 10px; display: block; border-radius: 5px;"><br>
@@ -1042,6 +1063,7 @@ print(resultado)`
 				},
 				practica: {
                     concepto: "Vectores",
+					tipo_pregunta: "calculo",
                     titulo: "Operaciones entre vectores (Práctica)",
                     contenido_pregunta: "Escribe un código en R que cree un vector...",
                     opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
@@ -1597,10 +1619,10 @@ round(interes_mensual*100, 3),
 			colorClase: "level-hard" 
 		},
 		data: {
-			tipo_pregunta: "opcion_multiple",
 			es: {
 				teoria: {
 					concepto: "Listas",
+					tipo_pregunta: "opcion_multiple",
 					titulo: "Operación con elementos de listas",
 					contenido_pregunta: `Un analista financiero tiene la siguiente lista en R con los datos mensuales de un fondo de inversión:
 					<i style="font-family: monospace; background-color: #f8f9fa; padding: 10px; display: block; border-radius: 5px;"><br>
@@ -1618,6 +1640,7 @@ round(interes_mensual*100, 3),
 				},
 				practica: {
                     concepto: "Vectores",
+					tipo_pregunta: "calculo",
                     titulo: "Operaciones entre vectores (Práctica)",
                     contenido_pregunta: "Escribe un código en R que cree un vector...",
                     opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
@@ -2509,10 +2532,10 @@ close(file_conn)
 			colorClase: "level-very-hard" 
 		},
 		data: {
-			tipo_pregunta: "opcion_multiple",
 			es: {
 				teoria: {
 					concepto: "Análisis estadístico en estructuras de datos",
+					tipo_pregunta: "opcion_multiple",
 					titulo: "Filtrado condicional en DataFrames",
 					contenido_pregunta: `Un analista financiero quiere quedarse solo con las empresas cuya rentabilidad supera o iguala la mediana del mercado. Para ello, ejecuta este código en su script de R:
 					<i style="font-family: monospace; background-color: #f8f9fa; padding: 10px; display: block; border-radius: 5px;"><br>
@@ -2531,16 +2554,24 @@ close(file_conn)
 				},
 				practica: {
                     concepto: "Vectores",
-                    titulo: "Operaciones entre vectores (Práctica)",
-                    contenido_pregunta: "Escribe un código en R que cree un vector...",
-                    opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
-                    respuesta_correcta: "Opción A",
-                    instruccion_tutor: "Guía al alumno revisando la sintaxis de creación..."
+					tipo_pregunta: "calculo",
+                    titulo: "Operaciones vectorizadas y filtrado condicional",
+                    contenido_pregunta: `Un analista necesita un reporte rápido de la inflación. Usando los vectores precargados (paises, inflacion_2020, inflacion_2024 y meta_bce), escribe el código necesario para completar esta secuencia de 3 pasos: <br>
+
+					1.Calcula la variación total de inflación entre 2020 y 2024 para cada país, y guárdala en una variable llamada variacion. <br>
+
+					2.Extrae los nombres de los países cuya inflación en 2024 fue estrictamente menor a la meta del BCE, guardándolos en  paises_exito. <br>
+
+					3.Calcula la media de inflación (del año 2024) únicamente de esos países que cumplieron la meta, y guárdala en media_exito <br>`,
+                    opciones_respuesta: [],
+                    respuesta_correcta: "",
+                    instruccion_tutor: `Si el estudiante no sabe cómo calcular media_exito, no le des la respuesta. Guíalo en dos pasos: primero pregúntale cómo filtraría los NÚMEROS del vector inflacion_2024 que son menores a meta_bce (usando corchetes sobre sí mismo). Una vez que lo logre, indícale que simplemente debe envolver ese filtro dentro de la función matemática del promedio.`
                 }
             },
 			en: {
 				teoria: {
 					concepto: "Statistical Analysis in Data Structures",
+					tipo_pregunta: "opcion_multiple",
 					titulo: "Conditional Filtering in DataFrames",
 					contenido_pregunta: `A financial analyst wants to focus only on companies whose profitability exceeds or equals the market median. To do this, he runs this code in his R script:
 					<i style="font-family: monospace; background-color: #f8f9fa; padding: 10px; display: block; border-radius: 5px;"><br>
@@ -2559,6 +2590,7 @@ close(file_conn)
 				},
 				practica: {
                     concepto: "Vectores",
+					tipo_pregunta: "calculo",
                     titulo: "Operaciones entre vectores (Práctica)",
                     contenido_pregunta: "Escribe un código en R que cree un vector...",
                     opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
