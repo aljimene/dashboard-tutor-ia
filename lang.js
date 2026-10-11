@@ -1,5 +1,40 @@
+const determinarIdioma = () => {
+    const parametrosURL = new URLSearchParams(window.location.search);
+    const idiomaURL = parametrosURL.get('lang'); // Busca si la URL tiene ?lang=en, ?lang=pt, etc.
+
+    if (idiomaURL && ['es', 'en', 'pt'].includes(idiomaURL)) {
+        localStorage.setItem('idiomaTutor', idiomaURL);
+        return idiomaURL;
+    }
+    return localStorage.getItem('idiomaTutor') || 'es';
+};
+const determinarVisibilidadTutor = () => {
+    const parametrosURL = new URLSearchParams(window.location.search);
+    const tutorURL = parametrosURL.get('tutor');
+
+    if (tutorURL && ['on', 'off'].includes(tutorURL)) {
+        localStorage.setItem('visibilidadTutor', tutorURL);
+        return tutorURL === 'on';
+    }
+	
+    const memoria = localStorage.getItem('visibilidadTutor');
+    return memoria ? (memoria === 'on') : true; 
+};
+const determinarModoPregunta = () => {
+    const parametrosURL = new URLSearchParams(window.location.search);
+    const modoURL = parametrosURL.get('modo');
+	
+    if (modoURL && ['teoria', 'practica'].includes(modoURL)) {
+        localStorage.setItem('modoPregunta', modoURL);
+        return modoURL;
+    }
+
+    return localStorage.getItem('modoPregunta') || 'practica'; 
+};
 const AppConfig = {
-    idioma: 'es' 
+    idioma: determinarIdioma(),
+	mostrarTutor: determinarVisibilidadTutor(),
+	modo: determinarModoPregunta()
 };
 
 const Diccionario = {

@@ -57,11 +57,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const listaEjerciciosDiv = document.getElementById('lista-ejercicios');
     listaEjerciciosDiv.innerHTML = ''; 
-    
+    const lang = AppConfig.idioma;
+	const modo = AppConfig.modo;
     datosEjercicios.forEach((ejercicio) => {
+		const bloqueIdioma = ejercicio.data[lang] || ejercicio.data['es'];
+		const textosSeguros = bloqueIdioma[modo] || bloqueIdioma['practica'];
         const itemDiv = document.createElement('div');
         itemDiv.className = 'exercise-item'; 
-        itemDiv.innerHTML = `<i class="fas fa-file-alt"></i> ${t('palabraEjercicio')}: ${ejercicio.data.concepto}`;
+        itemDiv.innerHTML = `<i class="fas fa-file-alt"></i> ${t('palabraEjercicio')}: ${textosSeguros.concepto}`;
         itemDiv.onclick = (e) => seleccionarEjercicio(ejercicio, e.currentTarget);
         listaEjerciciosDiv.appendChild(itemDiv);
     });
@@ -82,9 +85,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function seleccionarEjercicio(ejercicioData, elementoHTML) {
     currentExerciseId = "Ejercicio_" + ejercicioData.numero;
-    currentExerciseDataFull = ejercicioData; 
+    currentExerciseDataFull = ejercicioData;
 
-    registrarTracking("Ver_Dashboard_Ejercicio", `Viendo métricas del Ejercicio ${ejercicioData.numero}`);
+    registrarTracking("Inicia_Resolucion_Directa", `Entrando a resolver el Ejercicio ${ejercicioData.numero}`);
 
     document.querySelectorAll('.exercise-list div').forEach(el => el.classList.remove('active'));
     if (elementoHTML) {
@@ -92,21 +95,21 @@ function seleccionarEjercicio(ejercicioData, elementoHTML) {
     }
 
     document.getElementById('welcome-screen').classList.add('hidden');
+	//document.getElementById('metrics-container').classList.add('hidden');
     document.getElementById('exercise-content').classList.remove('hidden');
-
-    document.getElementById('solve-layout').classList.add('hidden');
-    document.getElementById('stats-container').classList.remove('hidden');
-    
-    const btnResolver = document.getElementById('btn-resolver');
-    if (btnResolver) {
-        btnResolver.disabled = false;
-        btnResolver.innerHTML = `<i class="fas fa-edit"></i> <span>${t('btnResolver')}</span>`;
+	const cabeceraMetricas = document.querySelector('.exercise-header');
+    if (cabeceraMetricas) {
+        cabeceraMetricas.classList.add('hidden');
     }
 
-    actualizarCabecera(ejercicioData);
-    renderizarGraficos(ejercicioData);
-
-    const conceptoActual = ejercicioData.data.concepto;
+    const lang = AppConfig.idioma;
+	const modo = AppConfig.modo;
+	
+	const bloqueIdioma = ejercicioData.data[lang] || ejercicioData.data['es'];
+    const textosSeguros = bloqueIdioma[modo] || bloqueIdioma['practica'];
+	
+    const conceptoActual = textosSeguros.concepto; 
+    
     const saludoPersonalizado = t('botSaludo').replace('{concepto}', conceptoActual);
 
     const messagesDiv = document.getElementById('messages');
@@ -128,6 +131,8 @@ function seleccionarEjercicio(ejercicioData, elementoHTML) {
         inputField.disabled = false;
     }
     if (sendBtn) sendBtn.disabled = false;
+
+    iniciarEvaluacion(ejercicioData);
 }
 
 function actualizarCabecera(datos) {
@@ -432,7 +437,12 @@ function sendMessage() {
         sendBtn.disabled = false;
         inputField.focus();
     };
-
+	const lang = AppConfig.idioma;
+	const modo = AppConfig.modo;
+	
+	const bloqueIdioma = currentExerciseDataFull.data[lang] || currentExerciseDataFull.data['es'];
+	const textosSeguros = bloqueIdioma[modo] || bloqueIdioma['practica'];
+	
     fetch(WEB_APP_URL, {
         method: 'POST',
         headers: {
@@ -443,10 +453,11 @@ function sendMessage() {
             userId: userId,
             ejercicioId: currentExerciseId,
             history: chatHistory,
-            concepto: currentExerciseDataFull.data.concepto,
-            titulo: currentExerciseDataFull.data.titulo,
-            instruccionTutor: currentExerciseDataFull.data.instruccion_tutor,
-            teoria: currentExerciseDataFull.data.teoria_texto || "" 
+            concepto: textosSeguros.concepto,
+            titulo: textosSeguros.titulo,
+            instruccionTutor: textosSeguros.instruccion_tutor,
+            teoria: currentExerciseDataFull.data.teoria_texto || "",
+			idioma: lang
         })
     })
     .then(async response => {
@@ -563,18 +574,36 @@ function iniciarEvaluacion(ejercicio) {
     tiempoInicioResolucion = Date.now();
     
     registrarTracking("Inicia_Resolucion", "Abrió la hoja del examen");
-
+	
+	const lang = AppConfig.idioma;
+	const modo = AppConfig.modo;
+	
     document.getElementById('stats-container').classList.add('hidden');
     document.getElementById('solve-layout').classList.remove('hidden');
     
+	const panelChatbot = document.querySelector('.right-panel');
+    const panelEjercicio = document.getElementById('solve-container');
+
+    if (panelChatbot && panelEjercicio) {
+        if (AppConfig.mostrarTutor) {
+            panelChatbot.style.display = '';
+            panelEjercicio.style.flex = "3";
+        } else {
+            panelChatbot.style.display = 'none';
+            panelEjercicio.style.flex = "1";
+        }
+    }
+	
     const btnResolver = document.getElementById('btn-resolver');
     if (btnResolver) btnResolver.disabled = true;
 
     const data = ejercicio.data;
-
-    document.getElementById('solve-title').innerText = data.titulo;
+	const bloqueIdioma = ejercicio.data[lang] || ejercicio.data['es'];
+	const textosSeguros = bloqueIdioma[modo] || bloqueIdioma['practica'];
+	
+    document.getElementById('solve-title').innerText = textosSeguros.titulo;
     document.getElementById('solve-score').innerText = `${t('puntajeMaximo')} ${data.puntaje_maximo} ${t('puntos')}`;
-    document.getElementById('solve-question').innerText = data.contenido_pregunta;
+	document.getElementById('solve-question').innerHTML = textosSeguros.contenido_pregunta;
 
     const inputArea = document.getElementById('solve-input-area');
     inputArea.innerHTML = ''; 
@@ -584,10 +613,14 @@ function iniciarEvaluacion(ejercicio) {
         const opcionesContainer = document.createElement('div');
         opcionesContainer.className = 'opciones-container';
         
-        data.opciones_respuesta.forEach((opcion) => {
+        textosSeguros.opciones_respuesta.forEach((opcion, index) => {
             const label = document.createElement('label');
-            label.className = 'opcion-label';
-            label.innerHTML = `<input type="radio" name="respuesta_ejercicio" value="${opcion}"> ${opcion}`;
+            label.className = 'opcion-item'; 
+            
+             label.innerHTML = `<input type="radio" name="respuesta_ejercicio" id="opcion_${index}" value="${opcion}"> <span style="cursor: pointer;">${opcion}</span>`;
+            
+            label.htmlFor = `opcion_${index}`; 
+            
             opcionesContainer.appendChild(label);
         });
         inputArea.appendChild(opcionesContainer);
