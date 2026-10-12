@@ -513,13 +513,19 @@ diferencia entre ellos.`
 					instruccion_tutor: "Para guiar al estudiante ante un error, divide la evaluación del primer if en dos partes. Pídele que compruebe primero si ingreso < 2000 (que es Falso, ya que 2500 no es menor que 2000). Luego, haz que analice la expresión entre paréntesis (ingreso <= 3000 & hijos >= 2), la cual se cumple. Finalmente, enfoca su atención en el operador | (OR) que une ambas partes, recordándole que basta con que una de las condiciones separadas por el OR sea Verdadera para que R ejecute ese bloque y asigne 500 a la subvención.",
 				},
 				practica: {
-                    concepto: "Vectores",
+                    concepto: "Condicionales",
 					tipo_pregunta: "calculo",
-                    titulo: "Operaciones entre vectores (Práctica)",
-                    contenido_pregunta: "Escribe un código en R que cree un vector...",
-                    opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
-                    respuesta_correcta: "Opción A",
-                    instruccion_tutor: "Guía al alumno revisando la sintaxis de creación..."
+                    titulo: "Cálculo de impuestos por tramos progresivos",
+                    contenido_pregunta: `Debes calcular el impuesto sobre la renta de un ciudadano cuyo ingreso es de 25000. El impuesto es progresivo, lo que significa que se divide en tramos:
+					<ol>
+						<li>Los primeros 10.000 (hasta 10.000) tributan al 5%.</li>
+						<li>La cantidad que exceda de 10.000 y llegue hasta 20.000 tributa al 10%.</li>
+						<li>Cualquier cantidad que exceda de 20.000 tributa al 15%.</li>
+					</ol>
+					Escribe él código que calcule el total a pagar y lo guarde en una variable llamada <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">impuesto</i>`,
+                    opciones_respuesta: [],
+                    respuesta_correcta: "",
+                    instruccion_tutor: `Al ser un impuesto progresivo, ¿los primeros 10.000 euros están libres del 15%? ¿A qué tasa tributan esos primeros 10.000?'. Guíalo para que estructure matemáticamente cada bloque del if/else. Si el estudiante comete errores de sintaxis (ej. usar else if separado por coma, o falta de llaves {}), recuérdale la estructura estándar de las condiciones múltiples en R`
                 }
             },
 			en: {
@@ -547,13 +553,19 @@ diferencia entre ellos.`
 					instruccion_tutor: "To guide the student when they make a mistake, break down the evaluation of the first `if` statement into two parts. Ask them to first check whether `ingreso` < 2000 (which is False, since 2500 is not less than 2000). Next, have them analyze the expression in parentheses (`ingreso` <= 3000 & `hijos` >= 2), which is true. Finally, focus their attention on the | (OR) operator that joins both parts, reminding them that it is sufficient for just one of the conditions separated by the OR to be True for R to execute that block and assign 500 to the grant.",
 				},
 				practica: {
-                    concepto: "Vectores",
+                    concepto: "Conditionals",
 					tipo_pregunta: "calculo",
-                    titulo: "Operaciones entre vectores (Práctica)",
-                    contenido_pregunta: "Escribe un código en R que cree un vector...",
-                    opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
-                    respuesta_correcta: "Opción A",
-                    instruccion_tutor: "Guía al alumno revisando la sintaxis de creación..."
+                    titulo: "Calculation of Taxes Using Progressive Tax Brackets",
+                    contenido_pregunta: `You must calculate the income tax for a citizen whose income is 25,000. The tax is progressive, which means it is divided into brackets.:
+					<ol>
+						<li>The first 10,000 (up to 10,000) are taxed at 5%.</li>
+                        <li>Amounts exceeding 10,000 and up to 20,000 are taxed at 10%.</li>
+						<li>Any amount exceeding 20,000 is taxed at 15%.</li>
+					</ol>
+					Write code that calculates the total amount due and stores it in a variable named <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">taxes</i>`,
+                    opciones_respuesta: [],
+                    respuesta_correcta: "",
+                    instruccion_tutor: `Since this is a progressive tax, are the first 10,000 euros exempt from the 15% rate? At what rate are those first 10,000 taxed?” Guide them to mathematically structure each block of the if/else statement. If the student makes syntax errors (e.g., using a comma-separated else if, or missing curly braces {}), remind them of the standard structure for multiple conditions in R.`
                 }
             },
 			puntaje_maximo: 100,
@@ -1062,13 +1074,20 @@ print(resultado)`
 					instruccion_tutor: "Pídele que haga la 'traza' mental del código paso a paso. Pregúntale: 'Cuando el trimestre es 1, ¿de qué número a qué número va el bucle de la oficina?'. Una vez que responda, pregúntale qué pasa en el trimestre 2, y luego en el trimestre 3. Haz que él mismo sume las auditorías de cada trimestre (1 + 2 + 3) para descubrir el valor final de la variable.",
 				},
 				practica: {
-                    concepto: "Vectores",
+                    concepto: "Bucles",
 					tipo_pregunta: "calculo",
-                    titulo: "Operaciones entre vectores (Práctica)",
-                    contenido_pregunta: "Escribe un código en R que cree un vector...",
-                    opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
-                    respuesta_correcta: "Opción A",
-                    instruccion_tutor: "Guía al alumno revisando la sintaxis de creación..."
+                    titulo: "Bucles anidados sobre matrices",
+                    contenido_pregunta: `Existe una matriz llamada <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;"> rentabilidad </i> que contiene los márgenes de beneficio de 3 empresas a lo largo de 3 años.<br>
+					Como auditor, necesitas contar cuántas veces se registraron márgenes negativos en esta matriz.<br>
+					Escribe el código para solucionarlo.<br>
+					<i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">
+					rentabilidad <- matrix(c(5, -2, 4, <br>
+                        -1, -3, 6, <br>
+                         2,  8, -4), nrow = 3, byrow = TRUE)</i><br>
+					`,
+                    opciones_respuesta: [],
+                    respuesta_correcta: "",
+                    instruccion_tutor: `Si el estudiante intenta resolver el problema sin bucles usando R vectorizado (ej. sum(rentabilidad < 0)), actúa como tutor y dile: Esa es una forma muy eficiente en R, pero en este ejercicio estamos evaluando tu lógica algorítmica pura. Construye la solución paso a paso usando bucles for. Si el alumno se atasca en los límites del bucle, guíalo preguntando: ¿Hasta qué número debe llegar el primer bucle i para recorrer todas las filas? ¿Puedes usar la función nrow()?. Si olvidan inicializar el contador, pregúntale dónde guardará el resultado cada vez que encuentre un número negativo`
                 }
             },
 			en: {
@@ -1092,12 +1111,20 @@ print(resultado)`
 					instruccion_tutor: "Ask them to mentally “walk through” the code step by step. Ask him, “When the quarter is 1, what range does the office loop cover?” Once he answers, ask him what happens in quarter 2, and then in quarter 3. Have him add up the audits for each quarter (1 + 2 + 3) to figure out the final value of the variable.",
 				},
 				practica: {
-                    concepto: "Vectores",
-                    titulo: "Operaciones entre vectores (Práctica)",
-                    contenido_pregunta: "Escribe un código en R que cree un vector...",
-                    opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
-                    respuesta_correcta: "Opción A",
-                    instruccion_tutor: "Guía al alumno revisando la sintaxis de creación..."
+                    concepto: "Loops",
+					tipo_pregunta: "calculo",
+                    titulo: "Nested loops over matrices",
+                    contenido_pregunta: `There is a matrix called <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">profitability </i> that contains the profit margins of 3 companies over 3 years.<br>
+					As an auditor, you need to count how many times negative margins were recorded in this matrix.<br>
+                    Write the code to solve this problem.<br>
+					<i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">
+					profitability <- matrix(c(5, -2, 4, <br>
+                        -1, -3, 6, <br>
+                         2,  8, -4), nrow = 3, byrow = TRUE)</i><br>
+					`,
+                    opciones_respuesta: [],
+                    respuesta_correcta: "",
+                    instruccion_tutor: `If the student tries to solve the problem without loops using vectorized R (e.g., sum(return < 0)), act as a tutor and tell them: “That’s a very efficient way to do it in R, but in this exercise we’re evaluating your pure algorithmic logic. Build the solution step by step using for loops.” If the student gets stuck on the loop boundaries, guide them by asking: “What number should the first loop’s i reach to iterate through all the rows? Can you use the nrow() function?” If they forget to initialize the counter, ask them where they will store the result each time they encounter a negative number.`
                 }
             },
 			puntaje_maximo: 100,
@@ -1639,13 +1666,19 @@ round(interes_mensual*100, 3),
 					instruccion_tutor: `Pregúntale cuál es la diferencia conceptual entre extraer un elemento con un solo corchete [ versus usar el símbolo $. Hazle notar que la función sum() requiere números o un vector numérico para operar. Pregúntale: Al usar portafolio["rendimientos"], ¿R nos está entregando los números puros, o nos está entregando una 'caja' (lista) que tiene los números adentro? ¿Se puede sumar matemáticamente una lista?`,
 				},
 				practica: {
-                    concepto: "Vectores",
+                    concepto: "Dataframes",
 					tipo_pregunta: "calculo",
-                    titulo: "Operaciones entre vectores (Práctica)",
-                    contenido_pregunta: "Escribe un código en R que cree un vector...",
-                    opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
-                    respuesta_correcta: "Opción A",
-                    instruccion_tutor: "Guía al alumno revisando la sintaxis de creación..."
+                    titulo: "Preparación de datos macroeconómicos",
+                    contenido_pregunta: `El Ministerio de Economía te ha proporcionado el fichero <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">macro_sample.csv</i>. Para poder entrenar un modelo econométrico, necesitas preparar los datos estructurando el siguiente script en R:
+					<ol>
+						<li>Importa los datos del fichero a tu entorno y almacénalos en una variable llamada <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">macro_df</i>.</li>
+						<li>Los modelos predictivos fallan si existen datos faltantes. A partir de los datos originales, genera un nuevo conjunto de datos llamado <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">macro_clean</i> del cual se hayan descartado todos los registros que estén incompletos.</li>
+						<li>Finalmente, aísla de esos datos limpios exclusivamente los trimestres de alto rendimiento</li>. 
+					</ol>
+					Guarda este resultado final en una variable llamada <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">macro_growth</i>`,
+                    opciones_respuesta: [],
+                    respuesta_correcta: "",
+                    instruccion_tutor: `Si el estudiante no sabe cómo empezar a cargar el archivo, pregúntale: '¿Recuerdas qué función integrada vimos en clase para leer archivos separados por comas?'. Si el alumno intenta limpiar los datos faltantes buscando manualmente los NAs con bucles o condicionales, recuérdale socráticamente: 'Existe una función en R diseñada específicamente para omitir de un plumazo todos los registros incompletos de un data frame. ¿Recuerdas cuál es?'. Si se atasca en el último paso, pregúntale cómo puede extraer un subconjunto de datos basándose en una condición lógica sobre una de sus columnas`
                 }
             },
 			en: {
@@ -1667,12 +1700,19 @@ round(interes_mensual*100, 3),
 					instruccion_tutor: `Ask them what the conceptual difference is between extracting an element with a single square bracket [ versus using the $ symbol. Point out to them that the sum() function requires numbers or a numeric vector to operate. Ask them: When using portfolio[“returns”], is R giving us the raw numbers, or is it giving us a “box” (list) that contains the numbers? Can a list be added mathematically?`,
 				},
 				practica: {
-                    concepto: "Vectores",
-                    titulo: "Operaciones entre vectores (Práctica)",
-                    contenido_pregunta: "Escribe un código en R que cree un vector...",
-                    opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
-                    respuesta_correcta: "Opción A",
-                    instruccion_tutor: "Guía al alumno revisando la sintaxis de creación..."
+                    concepto: "Dataframes",
+					tipo_pregunta: "calculo",
+                    titulo: "Preparation of Macroeconomic Data",
+                    contenido_pregunta: `The Ministry of Economy has provided you with the file <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">macro_sample.csv</i>. To train an econometric model, you need to prepare the data by writing the following script in R:
+					<ol>
+						<li>Import the data from the file into your environment and store it in a variable named <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">macro_df</i>.</li>
+						<li>Predictive models fail if there is missing data. From the original data, generate a new dataset called <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">macro_clean</i> from which all incomplete records have been removed.</li>
+						<li>Finally, isolate only the high-performing quarters from this cleaned dataset.</li>. 
+					</ol>
+					Store this final result in a variable named <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">macro_growth</i>`,
+                    opciones_respuesta: [],
+                    respuesta_correcta: "",
+                    instruccion_tutor: `If the student doesn't know how to start loading the file, ask them: “Do you remember which built-in function we covered in class for reading comma-separated files?” If the student tries to clean the missing data by manually searching for NAs using loops or conditional statements, remind them in a Socratic manner: “There is a function in R designed specifically to remove all incomplete records from a data frame in one fell swoop. Do you remember which one it is?' If they get stuck on the last step, ask them how they can extract a subset of data based on a logical condition on one of its columns`
                 }
             },
 			puntaje_maximo: 100,
