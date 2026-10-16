@@ -79,8 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     sendBtn.onclick = sendMessage;
     inputField.onkeypress = (e) => { if(e.key === 'Enter') sendMessage(); };
-	aplicarTextosGlobales();
-	configurarTrackingAtencion();
 });
 
 function seleccionarEjercicio(ejercicioData, elementoHTML) {
@@ -564,7 +562,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert(t('alertaExito'));
                     
                     document.getElementById('solve-layout').classList.add('hidden');
-                    document.getElementById('stats-container').classList.remove('hidden');
+					
+					document.getElementById('exercise-content').classList.add('hidden');
+					
+					document.getElementById('welcome-screen').classList.remove('hidden');
+					
+					document.querySelectorAll('.exercise-list div').forEach(el => el.classList.remove('active'));
+					
+					currentExerciseId = null;
+					currentExerciseDataFull = null;
                 });
             })
             .catch(err => {

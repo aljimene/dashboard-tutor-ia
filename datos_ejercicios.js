@@ -2597,11 +2597,11 @@ close(file_conn)
 					tipo_pregunta: "calculo",
                     titulo: "Funciones para evaluación de volatilidad estadística",
                     contenido_pregunta: `En economía, una métrica rápida para evaluar el riesgo de un país es comparar su dispersión con su crecimiento promedio.<br>
-					Escribe una función personalizada en R llamada evaluar_riesgo que reciba como parámetro un vector (llamémoslo x o datos). La función debe realizar internamente lo siguiente:<br>
+					Escribe una función en R llamada <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">evaluar_riesgo</i> que reciba como parámetro un vector <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">(x o datos)</i>. La función debe realizar internamente lo siguiente:<br>
 					<ol>
 						<li>Calcular la media del vector.</li>
 						<li>Calcular la desviación estándar del mismo vector.</li>
-						<li>Si la desviación estándar es estrictamente mayor que la media, la función debe devolver el texto "Alto Riesgo". En caso contrario, debe devolver "Riesgo Normal"</li>
+						<li>Si la desviación estándar es estrictamente mayor que la media, la función debe devolver el texto <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">"Alto Riesgo"</i>. En caso contrario, debe devolver <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">"Riesgo Normal"</i></li>
 					</ol>`,
                     opciones_respuesta: [],
                     respuesta_correcta: "",
@@ -2629,13 +2629,19 @@ close(file_conn)
 					instruccion_tutor: `Ask the student to mentally extract the “return” column and sort its 5 values from smallest to largest to find the central value (the median). Once the student deduces that the median is 10, have them look at the logical operator in the subset function (>=). Ask them, “Which of the 5 original values satisfy the condition of being greater than or equal to 10?” Finally, remind them that the nrow() function does not sum values, but rather counts the number of rows (cases) that survived the filter.`,
 				},
 				practica: {
-                    concepto: "Vectores",
+                    concepto: "Statistical Analysis in Data Structures",
 					tipo_pregunta: "calculo",
-                    titulo: "Operaciones entre vectores (Práctica)",
-                    contenido_pregunta: "Escribe un código en R que cree un vector...",
-                    opciones_respuesta: ["Opción A", "Opción B", "Opción C", "Opción D"],
-                    respuesta_correcta: "Opción A",
-                    instruccion_tutor: "Guía al alumno revisando la sintaxis de creación..."
+                    titulo: "Functions for Evaluating Statistical Volatility",
+                    contenido_pregunta: `In economics, a quick metric for assessing a country's risk is to compare its dispersion with its average growth.<br>
+                    Write a custom function in R called <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">evaluate_risk</i> that takes a vector <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">(x or data)</i> as a parameter. The function should internally perform the following:<br>
+					<ol>
+						<li>Calculate the mean of the vector.</li>
+                        <li>Calculate the standard deviation of the same vector.</li>
+                        <li>If the standard deviation is strictly greater than the mean, the function must return the text <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">“High Risk.”</i> Otherwise, it must return <i style="font-family: monospace; background-color: #f8f9fa; border-radius: 5px;">“Normal Risk.”</i></li>
+					</ol>`,
+                    opciones_respuesta: [],
+                    respuesta_correcta: "",
+                    instruccion_tutor: `If the student doesn't know how to get started, remind them how to declare a function in R (e.g., my_function <- function(x) { ... }). If they calculate the variance (var) instead of the standard deviation, correct them using the Socratic method: “Variance is squared and isn’t on the same scale as the mean. Which built-in statistical function in R (covered in class) gives us the dispersion in the original unit?” If the student doesn’t use the return() statement, explain that user-defined functions need to explicitly return the result of the evaluation.`
                 }
             },
 			puntaje_maximo: 100,
